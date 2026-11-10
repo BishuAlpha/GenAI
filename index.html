@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GenAI Engineer Interview Handbook: Transformers, LLM, RAG, Agentic AI, Harness &amp; Context Engineering</title>
+<meta name="description" content="Interactive interview handbook with architecture diagrams, calculators and 100+ detailed questions and answers on Transformers, BERT, LLMs, RAG, Agentic AI, Harness Engineering and Context Engineering.">
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--font-display:'VT323',ui-monospace,monospace;--font-body:'Source Serif 4',Georgia,serif;--font-mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
+--bg:#fafaf5;--bg2:#f3f1e8;--ink:#1a1a1a;--soft:#4a4a4a;--mute:#6f6f6c;--rule:rgba(26,26,26,.16);--dot:rgba(26,26,26,.08);
+--bp:#3553ff;--tint:rgba(53,83,255,.08);--tint2:rgba(53,83,255,.2);--code:#efece0;--hdr:rgba(250,250,245,.95);--ok:#1d7a46;--warn:#b8670f;--bad:#c0392b;--shadow:3px 3px 0 var(--ink);--sbw:290px}
+[data-theme=dark]{--bg:#0a0d1a;--bg2:#131830;--ink:#e8e6dc;--soft:#a8a6a0;--mute:#8a8888;--rule:rgba(232,230,220,.2);--dot:rgba(232,230,220,.07);--bp:#7b9bff;--tint:rgba(107,142,255,.12);--tint2:rgba(107,142,255,.26);--code:#131830;--hdr:rgba(10,13,26,.95);--ok:#4fc283;--warn:#e0a040;--bad:#ff7a6b}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{font-family:var(--font-body);font-size:17.5px;line-height:1.6;color:var(--ink);background:var(--bg) radial-gradient(var(--dot) 1px,transparent 1px) 0 0/16px 16px fixed}
+a{color:var(--bp);text-decoration:none;border-bottom:1px solid transparent}a:hover{border-bottom-color:var(--bp)}
+header{position:fixed;top:0;left:0;right:0;height:60px;z-index:100;background:var(--hdr);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule);display:flex;align-items:center;gap:12px;padding:0 16px}
+.logo{font-family:var(--font-display);font-size:1.55rem;letter-spacing:.04em;text-transform:uppercase;color:var(--ink);margin-right:auto;white-space:nowrap;border:0}
+.logo i{display:inline-block;width:11px;height:11px;background:var(--bp);margin-right:8px}
+button,select,input{font-family:var(--font-mono)}
+button{background:transparent;color:var(--ink);border:1px solid var(--rule);cursor:pointer;font-size:.8rem;padding:6px 10px}
+button:hover{background:var(--tint);border-color:var(--bp);color:var(--bp)}
+button.on{background:var(--bp);color:var(--bg);border-color:var(--bp)}
+#gsearch{font-size:.78rem;padding:7px 10px;width:min(300px,34vw);background:var(--bg);color:var(--ink);border:1px solid var(--rule)}
+aside{position:fixed;top:60px;bottom:0;left:0;width:var(--sbw);overflow:auto;padding:14px 10px 40px 14px;border-right:1px solid var(--rule);background:var(--hdr);z-index:50;transition:transform .25s}
+aside a{display:block;font-family:var(--font-mono);font-size:.72rem;color:var(--soft);padding:5px 8px;border-left:2px solid transparent;border-bottom:0}
+aside a:hover,aside a.on{color:var(--bp);background:var(--tint);border-left-color:var(--bp)}
+aside a.p{font-weight:700;color:var(--ink);text-transform:uppercase;margin-top:8px;border-left-color:var(--ink)}
+aside a.s{padding-left:24px}
+body.nosb aside{transform:translateX(-100%)}body.nosb main{margin-left:auto;margin-right:auto}
+main{margin-left:var(--sbw);padding:88px 40px 100px;max-width:1120px}
+h1,h2,h3,h4{font-family:var(--font-display);font-weight:400;line-height:1.02;text-transform:uppercase;letter-spacing:.02em;color:var(--bp)}
+h1{font-size:clamp(2.3rem,5vw,3.4rem);margin:2.2em 0 .5em;padding-top:.7em;border-top:3px solid var(--ink);position:relative}
+h1::before{content:attr(data-part);font-family:var(--font-mono);font-size:.66rem;letter-spacing:.2em;position:absolute;top:10px;left:0;color:var(--mute)}
+h1.top{margin-top:.2em;border:0;padding:0}h1.top::before{content:none}
+h2{font-size:clamp(1.8rem,3.2vw,2.35rem);margin:2em 0 .5em;border-bottom:1px solid var(--rule);padding-bottom:.2em}
+h3{font-size:1.5rem;margin:1.6em 0 .4em;padding-left:11px;border-left:4px solid var(--bp);color:var(--ink)}
+p{margin:.75em 0}ul,ol{margin:.6em 0 .6em 1.4em}li{margin:.25em 0}li::marker{color:var(--bp)}
+code{font-family:var(--font-mono);background:var(--code);border:1px solid var(--rule);padding:1px 5px;font-size:.82em}
+pre{font-family:var(--font-mono);background:var(--code);border:1px solid var(--ink);box-shadow:var(--shadow);padding:13px 15px;overflow:auto;font-size:.76rem;line-height:1.5;margin:1.2em 0}pre code{border:0;padding:0;background:none;font-size:inherit}
+.crumbs{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+blockquote{margin:1.1em 0;padding:11px 16px;background:var(--bg2);border:1px solid var(--ink);border-left:6px solid var(--warn);box-shadow:var(--shadow);color:var(--soft)}
+.tw{overflow-x:auto;margin:1.2em 0;border:1px solid var(--ink);box-shadow:var(--shadow);background:var(--bg)}
+table{border-collapse:collapse;width:100%;font-size:.88rem;line-height:1.4}
+th,td{padding:7px 11px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);text-align:left;vertical-align:top}
+th{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;background:var(--bg2);color:var(--bp)}
+tbody tr:nth-child(even) td{background:var(--tint)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:1.2em 0}
+.stat{border:1px solid var(--ink);box-shadow:var(--shadow);background:var(--bg);padding:9px 12px}
+.stat b{display:block;font-family:var(--font-display);font-size:2.1rem;line-height:1;color:var(--bp)}
+.stat span{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:1.1em 0}
+.card{border:1px solid var(--ink);border-top:5px solid var(--c,var(--bp));box-shadow:var(--shadow);background:var(--bg);padding:10px 14px}
+.card h4{font-size:1.25rem;color:var(--ink);margin:0 0 2px}.card p{font-size:.88rem;margin:.4em 0;line-height:1.4}
+.wid{margin:1.5em 0;border:1px solid var(--ink);box-shadow:var(--shadow);background:var(--bg)}
+.wbar{display:flex;justify-content:space-between;gap:10px;padding:6px 12px;background:var(--bg2);border-bottom:1px solid var(--ink);font-family:var(--font-mono);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase}
+.wbar span:first-child{color:var(--bp);font-weight:700}.wbar span:first-child::before{content:"● ";color:#16a34a}.wbar span:last-child{color:var(--mute)}
+.wb{padding:12px 14px}.wcap{padding:6px 14px 9px;font-size:.8rem;color:var(--mute);border-top:1px dashed var(--rule)}
+.ctl{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px 16px;margin-bottom:10px}
+.sl{display:flex;flex-direction:column;font-family:var(--font-mono);font-size:.66rem;color:var(--soft);text-transform:uppercase;gap:3px}
+.sl b{color:var(--bp);text-transform:none}.sl input[type=range]{width:100%;accent-color:var(--bp)}
+.sl select,.sl input[type=text],.sl input[type=number]{font-size:.76rem;padding:4px 6px;background:var(--bg);color:var(--ink);border:1px solid var(--rule)}
+.ro{font-family:var(--font-mono);font-size:.75rem;line-height:1.65;background:var(--bg2);border:1px solid var(--rule);padding:10px 13px;overflow-wrap:anywhere}
+.ro b{color:var(--bp)}.ro h4{font-size:1.15rem;color:var(--ink);margin:0 0 4px}.ro p{margin:.35em 0}
+.row2{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:14px;align-items:start}
+@media(max-width:900px){.row2{grid-template-columns:1fr}}
+.row2.stk{grid-template-columns:1fr}
+.dg svg{width:100%;height:auto;display:block;background:var(--bg)}
+.dg .node rect{fill:var(--bg2);stroke:var(--ink);stroke-width:1.5;transition:fill .15s}
+.dg .node{cursor:pointer}.dg .node:hover rect{fill:var(--tint2)}
+.dg .node.act rect{fill:var(--bp);stroke:var(--bp)}.dg .node.act text{fill:#fff}
+.dg .node.vis rect{fill:var(--tint2)}
+.dg .node text{font-family:var(--font-mono);fill:var(--ink);pointer-events:none}
+.dg .t1{font-size:12px;font-weight:700}.dg .t2{font-size:9.5px;fill:var(--mute)!important}.dg .node.act .t2{fill:#dde5ff!important}
+.dg .edge{stroke:var(--soft);stroke-width:1.4;fill:none}.dg .edge.dash{stroke-dasharray:5 4}.dg .edge.act{stroke:var(--bp);stroke-width:2.6}
+.dg .grp{fill:none;stroke:var(--bp);stroke-dasharray:6 4;stroke-width:1.2}.dg .gl{font:700 10px var(--font-mono);fill:var(--bp);letter-spacing:.1em}.dg .el{font:9px var(--font-mono);fill:var(--mute)}
+.dg marker path{fill:var(--soft)}
+.qa{border:1px solid var(--rule);background:var(--bg);margin:10px 0}
+.qa[open]{border-color:var(--ink);box-shadow:var(--shadow)}
+.qa summary{cursor:pointer;padding:10px 14px;list-style:none;display:flex;gap:10px;align-items:flex-start;font-weight:600;line-height:1.35}
+.qa summary::-webkit-details-marker{display:none}
+.qa summary::before{content:"+";font-family:var(--font-mono);color:var(--bp);flex:none;width:14px}
+.qa[open] summary::before{content:"−"}
+.qa summary:hover{background:var(--tint)}
+.lv{flex:none;font-family:var(--font-mono);font-size:.6rem;padding:2px 6px;border:1px solid;letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
+.lv.b{color:var(--ok)}.lv.i{color:var(--warn)}.lv.a{color:var(--bad)}
+.ans{padding:2px 16px 12px 38px;font-size:.96rem;border-top:1px dashed var(--rule)}
+.ans p{margin:.55em 0}.ans ul,.ans ol{margin-top:.4em}
+.ans .tip{margin:.7em 0;padding:6px 11px;border-left:4px solid var(--ok);background:var(--tint);font-size:.88rem}
+.qtools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:.8em 0}
+.qtools .cnt{font-family:var(--font-mono);font-size:.7rem;color:var(--mute);margin-left:auto}
+.quiz .opt{display:block;width:100%;text-align:left;margin:5px 0;padding:8px 12px;font-family:var(--font-body);font-size:.95rem}
+.quiz .opt.right{background:rgba(29,122,70,.2);border-color:var(--ok)}.quiz .opt.wrong{background:rgba(192,57,43,.18);border-color:var(--bad)}
+.quiz .qq{margin:14px 0 4px;font-weight:600}
+.bar{display:flex;height:26px;border:1px solid var(--ink);background:var(--bg);margin:8px 0}.bar span{height:100%;display:flex;align-items:center;justify-content:center;font:9px var(--font-mono);color:#fff;overflow:hidden;white-space:nowrap}
+.chunk{display:inline-block;margin:3px;padding:5px 8px;border:1px solid var(--ink);font:11px/1.4 var(--font-mono);background:var(--bg2);max-width:100%;white-space:pre-wrap}
+.chunk .ov{background:rgba(224,160,64,.5)}
+.hm{border-collapse:collapse;margin:6px auto;width:auto}.hm td{width:46px;height:34px;text-align:center;font:10px var(--font-mono);border:1px solid var(--rule);padding:0}.hm th{font:10px var(--font-mono);text-transform:none;padding:2px 4px;background:none;border:0;color:var(--soft)}
+#top{position:fixed;right:18px;bottom:18px;display:none;background:var(--bg);box-shadow:var(--shadow);z-index:60}
+@media(max-width:980px){aside{transform:translateX(-100%);width:300px}aside.open{transform:none}main,body.nosb main{margin-left:0;padding:84px 16px 80px}body{font-size:16.5px}}
+@media print{header,aside,#top{display:none}main{margin:0;max-width:none}}
+</style>
+</head>
+<body>
+<header>
+  <button id="menu" title="Toggle sidebar">≡</button>
+  <a class="logo" href="#top-of-page"><i></i>GenAI Interview Handbook</a>
+  <input id="gsearch" type="search" placeholder="Search all Q&amp;A…  (press /)" aria-label="Search questions">
+  <button id="theme" title="Toggle theme">◐</button>
+</header>
+<aside id="side"><nav id="toc"></nav></aside>
+<main id="top-of-page">
+<p class="crumbs">AI Engineer / GenAI Engineer / ML Engineer / Research Scientist</p>
+<h1 class="top" id="intro">GenAI Engineer Interview Handbook</h1>
+<blockquote><p>Seven parts, each with a concept guide, an <strong>interactive diagram or calculator</strong>, and detailed interview questions. Click any block in a diagram, press <strong>Play</strong> to walk through it, change the sliders, and expand questions to read model answers. Use the search box (press <code>/</code>) to filter every question at once. Answer at three levels: <em>concept</em> (what and why), <em>math</em> (how it works), and <em>system design</em> (how you would build, train, evaluate and deploy it).</p></blockquote>
+<div class="stats">
+  <div class="stat"><b id="nq">0</b><span>interview Q&amp;A</span></div>
+  <div class="stat"><b>7</b><span>topic parts</span></div>
+  <div class="stat"><b>12</b><span>interactive diagrams &amp; tools</span></div>
+  <div class="stat"><b>10</b><span>self-test questions</span></div>
+</div>
+<div class="tw"><table><thead><tr><th>Part</th><th>Focus</th><th>Level</th></tr></thead><tbody>
+<tr><td><a href="#p-trans">1. Transformers &amp; BERT</a></td><td>Attention, MHA, positional encoding, BERT, GQA/MLA/MoE/SSM</td><td>Must know</td></tr>
+<tr><td><a href="#p-genai">2. Generative AI</a></td><td>Model families, diffusion, multimodal, alignment, risks</td><td>Must know</td></tr>
+<tr><td><a href="#p-llm">3. LLMs</a></td><td>Training pipeline, fine-tuning, LoRA, KV cache, quantization, serving, evaluation</td><td>Advanced</td></tr>
+<tr><td><a href="#p-rag">4. RAG</a></td><td>Chunking, embeddings, hybrid search, reranking, GraphRAG, agentic RAG, eval</td><td>Must know</td></tr>
+<tr><td><a href="#p-agent">5. Agentic AI</a></td><td>Agent loop, workflow patterns, tools, MCP, A2A, multi-agent, safety</td><td>Advanced</td></tr>
+<tr><td><a href="#p-harness">6. Harness Engineering</a></td><td>Everything around the model: loop, tools, permissions, hooks, long-running agents</td><td>Differentiator</td></tr>
+<tr><td><a href="#p-context">7. Context Engineering</a></td><td>Context rot, budgets, compaction, memory, sub-agents, caching</td><td>Differentiator</td></tr>
+</tbody></table></div>
+<!-- ===================== PART 1 ===================== -->
+<h1 id="p-trans" data-part="PART 1">Transformers, Multi-Head Attention &amp; BERT</h1>
+<h2 id="t-why">From neural networks to Transformers</h2>
+<p>A feed-forward layer computes <code>a = f(Wx + b)</code>. It has no notion of order or context, so "bank" in <em>"the bank approved the loan"</em> and <em>"the river bank"</em> gets the same vector. <strong>RNNs</strong> add a hidden state, <code>h_t = tanh(W_x x_t + W_h h_(t-1) + b)</code>, but they process tokens one at a time (no parallelism), suffer vanishing gradients, and compress the past into one vector. <strong>LSTM/GRU</strong> add gates (forget, input, output; update, reset) which help, yet remain sequential.</p>
+<p>The <strong>Transformer</strong> (Vaswani et al., 2017, <em>Attention Is All You Need</em>) drops recurrence: every token attends to every other token directly, so training is parallel across the sequence and any two tokens are connected by a path of length one.</p>
+<div class="tw"><table><thead><tr><th>Model</th><th>Sequence handling</th><th>Parallel training</th><th>Long-range path</th><th>Cost per layer</th></tr></thead><tbody>
+<tr><td>RNN/LSTM</td><td>Recurrent state</td><td>No</td><td>O(n)</td><td>O(n·d²)</td></tr>
+<tr><td>CNN</td><td>Local kernels</td><td>Yes</td><td>O(log n) stacked</td><td>O(k·n·d²)</td></tr>
+<tr><td>Transformer</td><td>Self-attention</td><td>Yes</td><td>O(1)</td><td>O(n²·d)</td></tr>
+<tr><td>SSM (Mamba)</td><td>Selective recurrent state</td><td>Yes (scan)</td><td>Through state</td><td>O(n·d·N)</td></tr>
+</tbody></table></div>
+
+<h2 id="t-diagram">Interactive: decoder-only Transformer data flow</h2>
+<div class="wid"><div class="wbar"><span>Architecture explorer</span><span>click a block / press play</span></div><div class="wb"><div class="dg" data-dg="transformer"></div></div><div class="wcap">Modern LLM block: pre-norm, RoPE, GQA, SwiGLU. The dashed box repeats N times; the KV cache exists only at inference.</div></div>
+
+<h2 id="t-attn">Self-attention: Q, K, V and the maths</h2>
+<p>Each token vector <code>x</code> is projected into a <strong>query</strong> (what I am looking for), <strong>key</strong> (what I offer for matching) and <strong>value</strong> (what I contribute when matched): <code>Q = XW_Q, K = XW_K, V = XW_V</code>.</p>
+<pre><code>Attention(Q, K, V) = softmax( Q K^T / sqrt(d_k) + M ) V
+M = 0 where allowed, -inf where masked (causal: j &gt; i)</code></pre>
+<p>Dividing by √d_k keeps logit variance near 1: if q and k entries have unit variance, q·k has variance d_k, so unscaled logits grow with dimension and push softmax into saturation where gradients vanish.</p>
+<div class="wid"><div class="wbar"><span>Attention heat-map lab</span><span>real softmax on hand-set logits</span></div><div class="wb"><div id="attnlab"></div></div><div class="wcap">Logits are illustrative, designed so "it" prefers "file". Lower the temperature to sharpen, raise it to flatten. Turn on the causal mask to see GPT-style behaviour: each row only sees tokens at or before its own position. Pick a row to inspect one token.</div></div>
+
+<h2 id="t-mha">Multi-head attention, FFN and normalisation</h2>
+<p>Run <code>h</code> attention heads in parallel, each in a <code>d_k = d_model / h</code> subspace, concatenate and project: <code>MHA = Concat(head_1..head_h) W_O</code>. BERT-base: d=768, h=12, d_k=64. Heads are not guaranteed to be interpretable, but different heads empirically specialise (syntax, coreference, positional offsets).</p>
+<p>The <strong>FFN</strong> is applied per token: <code>FFN(x) = W2 σ(W1 x)</code>, 768→3072→768 in BERT; modern models use SwiGLU. Around each sub-layer sit a <strong>residual connection</strong> and <strong>normalisation</strong>: post-LN (original) <code>LN(x + F(x))</code> versus pre-LN (modern) <code>x + F(LN(x))</code>, which trains more stably at depth. Most LLMs use RMSNorm.</p>
+<h2 id="t-pos">Positional information</h2>
+<p>Attention is permutation-equivariant, so order must be injected. Original: sinusoidal <code>PE(pos,2i)=sin(pos/10000^(2i/d))</code>. BERT: learned absolute embeddings. Modern LLMs: <strong>RoPE</strong> rotates q and k by position-dependent angles so that <code>q_m·k_n</code> depends on <code>m−n</code>; <strong>ALiBi</strong> adds a distance-proportional bias to logits. Context-extension tricks (position interpolation, NTK scaling, YaRN) rescale RoPE frequencies.</p>
+
+<h2 id="t-bert">BERT</h2>
+<p>Encoder-only, bidirectional. Input = token + segment + position embeddings; <code>[CLS]</code> at the start and <code>[SEP]</code> between segments. Pretraining: <strong>MLM</strong> (mask 15% of tokens; of those 80% <code>[MASK]</code>, 10% random, 10% unchanged) and <strong>NSP</strong> (later shown unnecessary by RoBERTa). Fine-tune by adding a task head on <code>h_CLS</code> (classification), per-token heads (NER), or span heads (QA).</p>
+<div class="tw"><table><thead><tr><th></th><th>BERT-base</th><th>BERT-large</th></tr></thead><tbody><tr><td>Layers / hidden / heads</td><td>12 / 768 / 12</td><td>24 / 1024 / 16</td></tr><tr><td>FFN size / params</td><td>3072 / ~110M</td><td>4096 / ~340M</td></tr><tr><td>Max length</td><td colspan="2">512 (ModernBERT: 8,192)</td></tr></tbody></table></div>
+<div class="tw"><table><thead><tr><th>Family</th><th>Architecture</th><th>Attention</th><th>Objective</th><th>Best for</th></tr></thead><tbody>
+<tr><td>BERT / RoBERTa / DeBERTa / ModernBERT</td><td>Encoder-only</td><td>Bidirectional</td><td>MLM</td><td>Classification, NER, retrieval embeddings</td></tr>
+<tr><td>GPT / Llama / Claude / Qwen</td><td>Decoder-only</td><td>Causal</td><td>Next-token</td><td>Generation, chat, agents</td></tr>
+<tr><td>T5 / BART</td><td>Encoder-decoder</td><td>Bi + causal + cross</td><td>Denoising / text-to-text</td><td>Translation, summarisation</td></tr></tbody></table></div>
+
+<h2 id="t-modern">Efficiency developments</h2>
+<div class="cards">
+<div class="card" style="--c:#16a34a"><h4>FlashAttention</h4><p>Exact attention computed in SRAM tiles with online softmax; avoids materialising the N×N matrix in HBM. Same maths, far less memory traffic.</p></div>
+<div class="card" style="--c:#3553ff"><h4>MQA / GQA</h4><p>Share K/V heads across query heads to shrink the KV cache (MQA: 1 KV head, GQA: g groups).</p></div>
+<div class="card" style="--c:#d97706"><h4>MLA</h4><p>DeepSeek's Multi-head Latent Attention caches a low-rank latent and re-expands to K/V, cutting cache further.</p></div>
+<div class="card" style="--c:#9333ea"><h4>MoE</h4><p>A router sends each token to top-k of many expert FFNs: huge capacity, fewer active parameters per token.</p></div>
+<div class="card" style="--c:#0891b2"><h4>SSM / hybrids</h4><p>Mamba-style selective state spaces give linear-time sequence mixing; hybrids interleave a few attention layers.</p></div>
+<div class="card" style="--c:#dc2626"><h4>Sparse / local attention</h4><p>Sliding window, local-global (ModernBERT), chunked attention reduce O(N²) for long context.</p></div>
+</div>
+<h3>Interactive: KV-cache memory calculator</h3>
+<div class="wid"><div class="wbar"><span>KV cache calculator</span><span>MHA vs GQA vs MQA</span></div><div class="wb"><div id="kvcalc"></div></div><div class="wcap">Formula: 2 (K and V) × layers × KV-heads × head_dim × tokens × batch × bytes. Defaults resemble an 8B-class model with 32 layers and 32 query heads.</div></div>
+
+<h3>Code: multi-head attention in PyTorch</h3>
+<pre><code>import torch, torch.nn as nn, torch.nn.functional as F
+
+class MHA(nn.Module):
+    def __init__(self, d_model=768, heads=12, causal=False):
+        super().__init__()
+        assert d_model % heads == 0
+        self.h, self.dk, self.causal = heads, d_model // heads, causal
+        self.qkv = nn.Linear(d_model, 3 * d_model)
+        self.out = nn.Linear(d_model, d_model)
+
+    def forward(self, x, attn_mask=None):          # x: (B, T, D)
+        B, T, D = x.shape
+        q, k, v = self.qkv(x).chunk(3, dim=-1)
+        q, k, v = (t.view(B, T, self.h, self.dk).transpose(1, 2) for t in (q, k, v))
+        y = F.scaled_dot_product_attention(        # fused / FlashAttention kernel
+            q, k, v, attn_mask=attn_mask, is_causal=self.causal and attn_mask is None)
+        return self.out(y.transpose(1, 2).reshape(B, T, D))
+
+print(MHA()(torch.randn(2, 10, 768)).shape)        # torch.Size([2, 10, 768])</code></pre>
+<pre><code>from transformers import AutoTokenizer, AutoModelForSequenceClassification
+name = "google-bert/bert-base-uncased"
+tok = AutoTokenizer.from_pretrained(name)
+model = AutoModelForSequenceClassification.from_pretrained(name, num_labels=6)
+batch = tok(["Malware opened a remote connection"], return_tensors="pt", truncation=True)
+print(model(**batch).logits.argmax(-1))</code></pre>
+<h2 id="t-qa">Transformers &amp; BERT: interview Q&amp;A</h2>
+<div class="qlist" data-sec="trans"></div>
+
+<!-- ===================== PART 2 ===================== -->
+<h1 id="p-genai" data-part="PART 2">Generative AI Foundations</h1>
+<h2 id="g-intro">Landscape</h2>
+<p>Generative AI learns a data distribution <code>p(x)</code> (or conditional <code>p(x|c)</code>) and samples from it. Discriminative models learn <code>p(y|x)</code> or a decision boundary. The families you must be able to compare:</p>
+<div class="tw"><table><thead><tr><th>Family</th><th>Idea</th><th>Strength</th><th>Weakness</th></tr></thead><tbody>
+<tr><td>Autoregressive (LLMs)</td><td>Factorise p(x)=Π p(x_t|x_&lt;t)</td><td>Exact likelihood, scales, text/code</td><td>Sequential decoding is slow</td></tr>
+<tr><td>VAE</td><td>Encode to latent, decode, ELBO</td><td>Smooth latent space, fast sampling</td><td>Blurry samples</td></tr>
+<tr><td>GAN</td><td>Generator vs discriminator</td><td>Sharp images, fast sampling</td><td>Unstable training, mode collapse</td></tr>
+<tr><td>Diffusion / flow matching</td><td>Learn to denoise / transport noise to data</td><td>State-of-the-art images, video, audio</td><td>Many steps (mitigated by distillation)</td></tr>
+<tr><td>Masked-diffusion LMs</td><td>Iterative parallel text generation</td><td>Parallel decoding research</td><td>Less mature for text</td></tr></tbody></table></div>
+<h2 id="g-pipeline">Interactive: how a modern LLM is built</h2>
+<div class="wid"><div class="wbar"><span>LLM lifecycle</span><span>data → serving → monitoring</span></div><div class="wb"><div class="dg" data-dg="lifecycle"></div></div><div class="wcap">Click each stage to see what happens, typical scale and the failure modes an interviewer may probe.</div></div>
+<h2 id="g-qa">Generative AI: interview Q&amp;A</h2>
+<div class="qlist" data-sec="genai"></div>
+
+<!-- ===================== PART 3 ===================== -->
+<h1 id="p-llm" data-part="PART 3">Large Language Models</h1>
+<h2 id="l-train">Training, adaptation and inference</h2>
+<p><strong>Pretraining</strong> minimises next-token cross-entropy over trillions of tokens. <strong>SFT</strong> teaches the instruction format on curated demonstrations. <strong>Preference optimisation</strong> (RLHF with PPO, DPO, or GRPO-style RL with verifiable rewards) shifts behaviour toward helpfulness, safety and reasoning. Compute-optimal scaling (Chinchilla) suggests ~20 training tokens per parameter, but modern small models are deliberately over-trained for cheaper inference.</p>
+<div class="tw"><table><thead><tr><th>Adaptation method</th><th>What changes</th><th>Use when</th></tr></thead><tbody>
+<tr><td>Prompting / few-shot</td><td>Nothing</td><td>Fast iteration, small tasks</td></tr>
+<tr><td>RAG</td><td>Context only</td><td>Fresh / private knowledge, citations</td></tr>
+<tr><td>LoRA / QLoRA</td><td>Low-rank adapters (+ 4-bit base)</td><td>Style, format, domain skills on one GPU</td></tr>
+<tr><td>Full fine-tune</td><td>All weights</td><td>Large domain shift, lots of data</td></tr>
+<tr><td>DPO / RLHF / RLVR</td><td>Preference or reward-driven policy</td><td>Alignment, reasoning, tool use</td></tr>
+<tr><td>Distillation</td><td>Small student learns from big teacher</td><td>Latency and cost reduction</td></tr></tbody></table></div>
+<pre><code># LoRA: W' = W + (alpha / r) * B @ A,  A in R^(r x k), B in R^(d x r), r &lt;&lt; min(d, k)
+from peft import LoraConfig, get_peft_model
+cfg = LoraConfig(r=16, lora_alpha=32, lora_dropout=0.05,
+                 target_modules=["q_proj", "k_proj", "v_proj", "o_proj"], task_type="CAUSAL_LM")
+model = get_peft_model(base_model, cfg)   # trains ~0.1-1% of parameters</code></pre>
+<h2 id="l-decode">Decoding and sampling</h2>
+<p>Greedy picks argmax. <strong>Temperature</strong> T rescales logits <code>softmax(z/T)</code>. <strong>Top-k</strong> keeps the k best tokens; <strong>top-p</strong> keeps the smallest set whose cumulative probability ≥ p; <strong>min-p</strong> filters relative to the top probability. Speculative decoding uses a small draft model to propose tokens that the large model verifies in one pass.</p>
+<div class="wid"><div class="wbar"><span>Sampling lab</span><span>temperature · top-k · top-p</span></div><div class="wb"><div id="samplab"></div></div><div class="wcap">Next-token distribution for "The capital of France is ___" from fixed illustrative logits. Watch the kept set shrink as you tighten top-k / top-p, and the distribution flatten as temperature rises.</div></div>
+<h2 id="l-serve">Serving at scale</h2>
+<p>Two phases: <strong>prefill</strong> (process the prompt in parallel, compute-bound) and <strong>decode</strong> (one token at a time, memory-bandwidth-bound because weights and KV cache are re-read each step). Key techniques: KV cache, <strong>continuous batching</strong>, <strong>PagedAttention</strong> (vLLM), prefix caching, quantisation (INT8/FP8/INT4, GPTQ, AWQ), tensor/pipeline parallelism, speculative decoding. Metrics: time-to-first-token, inter-token latency, throughput, cost per million tokens.</p>
+<h2 id="l-qa">LLM: interview Q&amp;A</h2>
+<div class="qlist" data-sec="llm"></div>
+<!-- ===================== PART 4 ===================== -->
+<h1 id="p-rag" data-part="PART 4">Retrieval-Augmented Generation (RAG)</h1>
+<p>RAG grounds an LLM in external knowledge: retrieve relevant passages at query time and place them in the prompt. It gives fresh data, private data, citations and a smaller hallucination surface, without retraining.</p>
+<h2 id="r-arch">Interactive: RAG architecture</h2>
+<div class="wid"><div class="wbar"><span>RAG pipeline</span><span>ingestion lane + query lane</span></div><div class="wb"><div class="dg" data-dg="rag"></div></div><div class="wcap">Top lane runs offline (indexing). Bottom lane runs per request. Press Play to follow a query from question to cited answer.</div></div>
+<h2 id="r-chunk">Interactive: chunking lab</h2>
+<div class="wid"><div class="wbar"><span>Chunker</span><span>size · overlap</span></div><div class="wb"><div id="chunklab"></div></div><div class="wcap">Highlighted text is overlap, repeated at the start of the next chunk so a sentence cut at a boundary is still retrievable. Token counts are approximated by words.</div></div>
+<h2 id="r-adv">Beyond naive RAG</h2>
+<div class="tw"><table><thead><tr><th>Technique</th><th>Problem solved</th></tr></thead><tbody>
+<tr><td>Hybrid search (BM25 + dense, fused with RRF)</td><td>Dense misses exact IDs / rare terms; BM25 misses paraphrase</td></tr>
+<tr><td>Cross-encoder reranking</td><td>Bi-encoder recall is coarse; rerank top-50 to top-5 for precision</td></tr>
+<tr><td>Query rewriting / HyDE / multi-query</td><td>User queries are short, ambiguous or multi-part</td></tr>
+<tr><td>Contextual retrieval / parent-child chunks</td><td>Chunks lose surrounding context; small chunks retrieve, large chunks answer</td></tr>
+<tr><td>GraphRAG / knowledge graphs</td><td>Multi-hop and global "summarise the corpus" questions</td></tr>
+<tr><td>Agentic RAG</td><td>Model decides when, what and how often to retrieve, and verifies sufficiency</td></tr>
+<tr><td>Metadata filters, ACL filtering</td><td>Multi-tenant security and freshness</td></tr></tbody></table></div>
+<h3>Interactive: hybrid search fusion (RRF)</h3>
+<div class="wid"><div class="wbar"><span>Reciprocal Rank Fusion</span><span>BM25 + dense</span></div><div class="wb"><div id="rrflab"></div></div><div class="wcap">Rankings are illustrative. Edit nothing: change k and the dense/BM25 weight to see how fusion reorders documents that only one retriever ranks highly.</div></div>
+<pre><code># Reciprocal Rank Fusion: score(d) = sum over rankers of 1 / (k + rank_r(d)),  k ~ 60
+def rrf(rankings, k=60):
+    s = {}
+    for ranking in rankings:
+        for r, doc in enumerate(ranking, 1):
+            s[doc] = s.get(doc, 0) + 1 / (k + r)
+    return sorted(s, key=s.get, reverse=True)</code></pre>
+<h2 id="r-qa">RAG: interview Q&amp;A</h2>
+<div class="qlist" data-sec="rag"></div>
+
+<!-- ===================== PART 5 ===================== -->
+<h1 id="p-agent" data-part="PART 5">Agentic AI</h1>
+<p>Anthropic's useful distinction: <strong>workflows</strong> orchestrate LLMs and tools through predefined code paths; <strong>agents</strong> let the LLM dynamically direct its own process and tool use. Both are "agentic systems". Start with the simplest thing that works and add autonomy only when it measurably helps.</p>
+<h2 id="a-loop">Interactive: the agent loop</h2>
+<div class="wid"><div class="wbar"><span>Agent loop (ReAct style)</span><span>plan → act → observe → repeat</span></div><div class="wb"><div class="dg" data-dg="agent"></div></div><div class="wcap">The loop ends on a stop condition, a step/budget limit, an error escalation, or a human decision. Dashed edges are governance paths.</div></div>
+<h2 id="a-patterns">Workflow and agent patterns</h2>
+<div class="cards">
+<div class="card"><h4>Prompt chaining</h4><p>Fixed sequence of calls with gates. Trade latency for accuracy.</p></div>
+<div class="card"><h4>Routing</h4><p>Classify then dispatch to a specialised prompt, tool or smaller model.</p></div>
+<div class="card"><h4>Parallelisation</h4><p>Sectioning (independent subtasks) or voting (diverse samples).</p></div>
+<div class="card"><h4>Orchestrator-workers</h4><p>Lead model decomposes dynamically, workers execute, lead synthesises.</p></div>
+<div class="card"><h4>Evaluator-optimiser</h4><p>Generator and critic iterate against clear criteria.</p></div>
+<div class="card"><h4>Autonomous agent</h4><p>Open-ended loop with tools, environment feedback and checkpoints.</p></div>
+</div>
+<h3>Interactive: multi-agent orchestration</h3>
+<div class="wid"><div class="wbar"><span>Orchestrator-workers</span><span>click a worker</span></div><div class="wb"><div class="dg" data-dg="multi"></div></div><div class="wcap">Workers run in clean context windows and return condensed summaries, so the lead's context stays small. Cost: more total tokens and coordination complexity.</div></div>
+<h2 id="a-mcp">Interactive: MCP and agent-to-agent protocols</h2>
+<p><strong>MCP</strong> (Model Context Protocol) is an open standard, "USB-C for AI": a host application runs MCP clients that connect to MCP servers exposing <strong>tools</strong> (actions), <strong>resources</strong> (data) and <strong>prompts</strong> (templates) over stdio or streamable HTTP. <strong>A2A</strong> addresses agent-to-agent collaboration and discovery (agent cards, tasks). MCP is vertical (agent to tools); A2A is horizontal (agent to agent).</p>
+<div class="wid"><div class="wbar"><span>Protocol map</span><span>MCP vs A2A</span></div><div class="wb"><div class="dg" data-dg="mcp"></div></div><div class="wcap">Security points: tool-description injection, over-broad scopes, confused deputy, token passthrough. Always authenticate, scope least privilege, and require consent for side-effecting tools.</div></div>
+<h2 id="a-qa">Agentic AI: interview Q&amp;A</h2>
+<div class="qlist" data-sec="agent"></div>
+
+<!-- ===================== PART 6 ===================== -->
+<h1 id="p-harness" data-part="PART 6">Harness Engineering</h1>
+<p>The <strong>harness</strong> is everything around the model that turns a next-token predictor into a working agent: the loop, system prompt, tools and their schemas, context management, permissions and sandboxing, hooks, memory, orchestration of sub-agents, tracing and evaluation. The model supplies reasoning; the harness supplies <em>reliability</em>. Two teams using the same model can get very different results purely from harness quality, which is why it is a rising interview topic.</p>
+<h2 id="h-arch">Interactive: harness architecture</h2>
+<div class="wid"><div class="wbar"><span>Agent harness</span><span>click any layer</span></div><div class="wb"><div class="dg" data-dg="harness"></div></div><div class="wcap">Generic reference design, abstracted from public descriptions of agent SDKs and coding agents. Component names vary by product.</div></div>
+<h2 id="h-long">Long-running agents: the initializer / worker pattern</h2>
+<p>Anthropic's write-up on long-running agents describes sessions as shifts with no memory of the previous shift. Their fix, in harness terms:</p>
+<ol><li><strong>Initializer session</strong> creates an <code>init.sh</code>, a progress log and a first git commit, and expands the request into a JSON <strong>feature list</strong> with every item initially <code>failing</code>.</li>
+<li><strong>Each worker session</strong> reads the progress file and git log, starts the dev server, runs a basic end-to-end check, picks <em>one</em> failing feature, implements it, tests it like a user (browser automation), commits, and updates the log.</li>
+<li>Workers may flip only the <code>passes</code> field; deleting or editing tests is forbidden. JSON is used because models alter it less carelessly than Markdown.</li></ol>
+<p>This counters two classic failure modes: trying to one-shot everything, and declaring victory early.</p>
+<div class="wid"><div class="wbar"><span>Session timeline</span><span>press play</span></div><div class="wb"><div class="dg" data-dg="sessions"></div></div><div class="wcap">Each session is stateless; continuity lives in files and git, not in the model's memory.</div></div>
+<div class="tw"><table><thead><tr><th>Harness concern</th><th>Good practice</th><th>Failure if ignored</th></tr></thead><tbody>
+<tr><td>Tool design</td><td>Few, well-named, non-overlapping tools; clear schemas; actionable errors; token-efficient outputs</td><td>Wrong tool choice, retries, context bloat</td></tr>
+<tr><td>Permissions</td><td>Allow/deny rules, sandbox, approval for destructive actions, least privilege</td><td>Data loss, exfiltration, injection damage</td></tr>
+<tr><td>Hooks &amp; guardrails</td><td>Deterministic pre/post tool checks (lint, secrets scan, policy)</td><td>Rules only "suggested" in a prompt get ignored</td></tr>
+<tr><td>Verification</td><td>Tests, linters, browser checks, separate reviewer</td><td>Silent wrong answers, false "done"</td></tr>
+<tr><td>State &amp; memory</td><td>Git, progress files, notes; resumable sessions</td><td>Repeated work, lost decisions</td></tr>
+<tr><td>Observability</td><td>Full traces, token/cost accounting, replay</td><td>Impossible to debug or improve</td></tr>
+<tr><td>Limits</td><td>Step, time, token and cost budgets; loop detection</td><td>Runaway spend, infinite loops</td></tr></tbody></table></div>
+<h2 id="h-qa">Harness Engineering: interview Q&amp;A</h2>
+<div class="qlist" data-sec="harness"></div>
+
+<!-- ===================== PART 7 ===================== -->
+<h1 id="p-context" data-part="PART 7">Context Engineering</h1>
+<p>Prompt engineering is writing good instructions. <strong>Context engineering</strong> is curating <em>everything</em> that enters the window on every call: system prompt, tool definitions, retrieved documents, memory, message history and tool results. The goal is the <strong>smallest set of high-signal tokens</strong> that makes the desired behaviour likely. Context is a finite resource with diminishing returns: as it grows, recall degrades ("context rot"), and attention cost grows quadratically.</p>
+<h2 id="c-budget">Interactive: context window budget</h2>
+<div class="wid"><div class="wbar"><span>Context budget planner</span><span>tokens per component</span></div><div class="wb"><div id="ctxlab"></div></div><div class="wcap">Budget by component. The advice line is a heuristic: effective quality is usually best well below the advertised window, and a long prompt costs both money and attention.</div></div>
+<h2 id="c-arch">Interactive: context engineering strategies</h2>
+<div class="wid"><div class="wbar"><span>Context pipeline</span><span>write · select · compress · isolate</span></div><div class="wb"><div class="dg" data-dg="context"></div></div><div class="wcap">Four levers: <b>write</b> context outside the window, <b>select</b> what comes in, <b>compress</b> what stays, <b>isolate</b> work in separate windows.</div></div>
+<div class="tw"><table><thead><tr><th>Strategy</th><th>How</th><th>Trade-off</th></tr></thead><tbody>
+<tr><td>Just-in-time retrieval</td><td>Keep references (paths, queries), load with tools when needed</td><td>Slower than precomputed; needs good tool guidance</td></tr>
+<tr><td>Tool-result clearing</td><td>Drop old, bulky tool outputs</td><td>Lightest-touch compaction; may lose detail</td></tr>
+<tr><td>Compaction</td><td>Summarise history, restart window with the summary</td><td>Maximise recall first, then trim for precision</td></tr>
+<tr><td>Structured notes / memory</td><td>Agent writes NOTES.md / memory store, re-reads later</td><td>Needs discipline and retrieval</td></tr>
+<tr><td>Sub-agents</td><td>Explore in a clean window, return a 1-2k token summary</td><td>Coordination overhead, more total tokens</td></tr>
+<tr><td>Prompt caching</td><td>Stable prefix (system, tools, docs) first, volatile content last</td><td>Any prefix change invalidates the cache</td></tr>
+<tr><td>Few-shot curation</td><td>A few diverse canonical examples, not exhaustive rules</td><td>Examples can be over-copied</td></tr></tbody></table></div>
+<h2 id="c-qa">Context Engineering: interview Q&amp;A</h2>
+<div class="qlist" data-sec="context"></div>
+
+<!-- ===================== QUIZ ===================== -->
+<h1 id="p-quiz" data-part="SELF-TEST">Interview simulation</h1>
+<div class="wid"><div class="wbar"><span>Self-test</span><span id="qscore">0 / 10 answered</span></div><div class="wb" id="quiz"></div></div>
+
+<h1 id="p-res" data-part="REFERENCE">Resources &amp; study order</h1>
+<div class="tw"><table><thead><tr><th>Resource</th><th>Learn</th></tr></thead><tbody>
+<tr><td><a href="https://arxiv.org/abs/1706.03762">Attention Is All You Need (2017)</a></td><td>Original Transformer</td></tr>
+<tr><td><a href="https://arxiv.org/abs/1810.04805">BERT (2018)</a></td><td>Bidirectional pretraining</td></tr>
+<tr><td><a href="https://arxiv.org/abs/1907.11692">RoBERTa (2019)</a></td><td>Better BERT recipe</td></tr>
+<tr><td><a href="https://arxiv.org/abs/2205.14135">FlashAttention (2022)</a></td><td>IO-aware attention</td></tr>
+<tr><td><a href="https://arxiv.org/abs/2312.00752">Mamba (2023)</a></td><td>Selective state spaces</td></tr>
+<tr><td><a href="https://aclanthology.org/2025.acl-long.127/">ModernBERT (ACL 2025)</a></td><td>Modern encoder</td></tr>
+<tr><td><a href="https://arxiv.org/abs/2005.11401">RAG (Lewis et al., 2020)</a></td><td>Original RAG</td></tr>
+<tr><td><a href="https://arxiv.org/abs/2210.03629">ReAct (2022)</a></td><td>Reason + act loop</td></tr>
+<tr><td><a href="https://www.anthropic.com/engineering/building-effective-agents">Building effective agents</a></td><td>Workflow vs agent patterns</td></tr>
+<tr><td><a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering for AI agents</a></td><td>Context rot, compaction, notes, sub-agents</td></tr>
+<tr><td><a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Effective harnesses for long-running agents</a></td><td>Initializer / worker, feature lists</td></tr>
+<tr><td><a href="https://modelcontextprotocol.io/docs/getting-started/intro">Model Context Protocol docs</a></td><td>Tools, resources, prompts, transports</td></tr>
+</tbody></table></div>
+<p><strong>Study order:</strong> (1) attention maths and BERT vs GPT; (2) KV cache, FlashAttention, GQA, LoRA; (3) RAG end to end with evaluation; (4) agent loop, tools, MCP, safety; (5) harness and context engineering trade-offs; (6) be able to draw each diagram on a whiteboard and state two failure modes per box.</p>
+<p style="color:var(--mute);font-size:.85rem">Sourcing note: web search was unavailable while building this page. Agent, harness, context and MCP material comes from Anthropic and MCP primary docs fetched directly; the Transformer/BERT section follows your supplied notes. Verify any 2026-specific paper claims (e.g. Full-Bandwidth Transformer, Tensor Product Attention) before quoting them in an interview.</p>
+</main>
+<button id="top">TOP ↑</button>
+<script>
+const QA={};
+QA.trans=[
+{l:'b',q:'Explain the complete Transformer architecture.',a:`<p>Introduced in 2017 (<em>Attention Is All You Need</em>), the Transformer replaces recurrence with attention. Text is tokenised, mapped to embeddings, and given positional information. The <strong>encoder</strong> stacks layers of multi-head self-attention and a position-wise FFN, each wrapped in residual connections and normalisation. The <strong>decoder</strong> adds masked (causal) self-attention and cross-attention over encoder outputs, then a linear + softmax over the vocabulary.</p><p>Key advantages: training parallelises across positions, any two tokens interact in one step (better long-range dependencies), and it scales predictably with data and compute. Cost: self-attention is O(n²·d) in time and the score matrix is O(n²) memory in a naive implementation.</p><div class="tip">Say which variant you mean: the original is encoder-decoder; BERT keeps only the encoder; GPT/Llama/Claude keep only the decoder.</div>`},
+{l:'b',q:'Explain Query, Key and Value with an example.',a:`<p>Each token is linearly projected three ways. The <strong>query</strong> says what this token is looking for, the <strong>key</strong> advertises what each token offers, and the <strong>value</strong> is the content that gets mixed in. Scores are <code>q·k</code>, scaled and softmaxed into weights, then used to average the values.</p><p>Example: in "The malware downloaded a file and executed <em>it</em>", the query for "it" matches the key for "file" strongly, so the output for "it" is mostly the value vector of "file". Separate projections for Q, K and V let the model decide <em>how to match</em> independently of <em>what to pass along</em>.</p>`},
+{l:'b',q:'Why divide by √d_k in scaled dot-product attention?',a:`<p>If query and key components are independent with zero mean and unit variance, <code>q·k</code> has variance d_k, so its standard deviation grows as √d_k. Large logits push softmax toward a one-hot distribution where gradients are almost zero. Dividing by √d_k restores unit variance and keeps softmax in a regime with useful gradients.</p><div class="tip">Interview answer: "to prevent attention logits growing with dimension, which would saturate softmax and give vanishing gradients."</div>`},
+{l:'b',q:'What is multi-head attention and why use several heads?',a:`<p>Instead of one attention over d_model dimensions, project into h subspaces of size d_k = d_model/h, run attention in each, concatenate and apply <code>W_O</code>. Parameter count is the same as one big head, but the model can learn <em>different attention patterns in parallel</em>: local syntax, coreference, delimiter tracking, positional offsets.</p><p>Example: BERT-base has 12 heads × 64 dims = 768. Caveat: individual heads are not reliably interpretable and many can be pruned with little loss; the benefit is representational diversity, not a guarantee of clean roles.</p>`},
+{l:'b',q:'Self-attention vs multi-head attention: what is the difference?',a:`<p>Multi-head attention is not a different mechanism; it is several self-attention computations with separate learned projections, run in parallel and merged. Single-head attention produces one weighting per token; multi-head produces h weightings, each over a lower-dimensional subspace, then mixes them with <code>W_O</code>.</p>`},
+{l:'b',q:'Why does a Transformer need positional encoding?',a:`<p>Self-attention is permutation-equivariant: shuffling the tokens just shuffles the outputs, so "dog chased cat" and "cat chased dog" would be indistinguishable. Position must be injected as sinusoidal encodings (original), learned absolute embeddings (BERT, GPT-2), rotary embeddings (RoPE, most modern LLMs) or attention biases (ALiBi, T5 relative bias).</p>`},
+{l:'i',q:'How does RoPE work and why is it preferred?',a:`<p>RoPE splits q and k into 2-D pairs and rotates pair i at position m by angle <code>m·θ_i</code> with <code>θ_i = base^(-2i/d)</code>. The dot product of a rotated query at m and a rotated key at n depends only on the offset <code>m−n</code>, giving relative position information with no extra parameters, and it is applied inside attention so the residual stream is not polluted.</p><p>Benefits: good extrapolation behaviour, easy context extension by rescaling frequencies (position interpolation, NTK-aware scaling, YaRN), compatible with KV caching and FlashAttention. Limitation: quality still degrades beyond lengths seen in training unless extended and fine-tuned.</p>`},
+{l:'b',q:'Why residual connections and layer normalisation?',a:`<p>Residuals give gradients a direct path through depth and let each layer learn a refinement of the stream rather than a full transformation. Normalisation stabilises activation scale. Original Transformer used <strong>post-LN</strong> (<code>LN(x+F(x))</code>) which needs careful warm-up; modern LLMs use <strong>pre-LN</strong> (<code>x+F(LN(x))</code>) with <strong>RMSNorm</strong> (no mean subtraction, cheaper) for stable deep training.</p>`},
+{l:'b',q:'Describe BERT: architecture and pretraining objectives.',a:`<p>BERT is a stack of Transformer <strong>encoder</strong> layers (base 12×768×12 heads, ~110M params). Input embedding = WordPiece token + segment + learned position; <code>[CLS]</code> starts the sequence, <code>[SEP]</code> separates segments.</p><ul><li><strong>MLM</strong>: select 15% of tokens; 80% → [MASK], 10% → random token, 10% unchanged. Loss only on selected positions. The random/unchanged cases reduce the train/fine-tune mismatch since [MASK] never appears at inference.</li><li><strong>NSP</strong>: binary IsNext/NotNext on sentence pairs. RoBERTa showed it can be dropped.</li></ul><p>Fine-tuning attaches small heads: classification on <code>h_CLS</code>, token classification for NER, start/end span heads for extractive QA.</p>`},
+{l:'b',q:'BERT vs GPT vs T5: when would you pick each?',a:`<ul><li><strong>BERT-style encoder</strong>: understanding tasks, embeddings, classification, NER, reranking, retrieval. Cheap, bidirectional, fast single forward pass.</li><li><strong>GPT-style decoder</strong>: open-ended generation, chat, code, in-context learning, agents. Dominant for general-purpose LLMs.</li><li><strong>T5/BART encoder-decoder</strong>: input→output transformation such as translation and summarisation.</li></ul><p>These are tendencies. Decoder-only models can also embed and classify, and encoders remain very strong and cost-efficient for retrieval and classification at scale.</p>`},
+{l:'i',q:'What changed in RoBERTa, DeBERTa and ModernBERT?',a:`<ul><li><strong>RoBERTa</strong>: no NSP, dynamic masking, more data, bigger batches, longer training.</li><li><strong>DeBERTa</strong>: disentangled attention (separate content and position vectors) plus an enhanced mask decoder.</li><li><strong>ModernBERT</strong> (2024, ACL 2025): RoPE, 8,192 context, alternating local/global attention, GeGLU, FlashAttention, unpadding, trained on ~2T tokens. Better speed and long-document handling for classification and retrieval.</li></ul>`},
+{l:'i',q:'What is FlashAttention and does it change the maths?',a:`<p>No: output is exact. Standard attention writes the N×N score matrix to GPU HBM, softmaxes it, and reads it back, making it <em>memory-bandwidth bound</em>. FlashAttention tiles Q, K, V into blocks that fit in on-chip SRAM, uses an <strong>online softmax</strong> (running max and sum) to avoid materialising the full matrix, and recomputes in the backward pass. Result: O(N) extra memory, much less HBM traffic, 2-4× speed-ups and longer feasible contexts. FLOPs remain O(N²).</p>`},
+{l:'i',q:'Compare MHA, MQA and GQA. Why does it matter?',a:`<p>During decoding, K and V of all previous tokens are cached. Cache size scales with the number of <em>KV heads</em>. <strong>MHA</strong>: one KV head per query head. <strong>MQA</strong>: one KV head shared by all query heads (smallest cache, some quality loss). <strong>GQA</strong>: query heads split into g groups, each sharing a KV head (e.g. 32 Q heads, 8 KV heads = 4× smaller cache) with near-MHA quality. Smaller cache means more concurrent sequences, longer contexts and lower memory-bandwidth per token. Use the KV calculator above to quantify it.</p>`},
+{l:'a',q:'What is Multi-head Latent Attention (MLA)?',a:`<p>Used in DeepSeek models: rather than caching full per-head K and V, project hidden states to a low-rank <em>latent</em> vector and cache only that (plus a small decoupled RoPE key part). At attention time, up-projection matrices reconstruct K and V (and can be absorbed into the query/output projections). Cache shrinks by an order of magnitude compared with MHA while keeping or improving quality. Trade-off: more complex implementation and extra compute for projections.</p>`},
+{l:'i',q:'How does Mixture of Experts work, and what are its problems?',a:`<p>Replace the dense FFN with E expert FFNs and a router: <code>g = softmax(W_r x)</code>, take top-k experts and combine <code>Σ g_i · Expert_i(x)</code>. Total parameters are large but active parameters per token are small, so more capacity per FLOP.</p><p>Problems: <strong>load imbalance</strong> (auxiliary balancing loss or bias-based balancing), <strong>expert parallel communication</strong> (all-to-all), routing instability, and the fact that <em>all</em> experts must still be stored in memory, so MoE saves compute, not memory.</p>`},
+{l:'a',q:'How do state-space models (Mamba) differ from attention, and what are hybrids?',a:`<p>An SSM maintains a fixed-size recurrent state: <code>h_t = A h_(t-1) + B x_t, y_t = C h_t</code>. Mamba makes A, B, C input-dependent (<em>selective</em>), so it can choose what to remember or forget, with a hardware-aware parallel scan. Inference is O(1) memory per token and training is linear in length.</p><p>Weakness: a fixed-size state is a lossy summary, so exact recall of arbitrary earlier tokens (needle-in-haystack, copying) is harder. <strong>Hybrids</strong> interleave a few attention layers among SSM layers to get both efficiency and precise retrieval.</p>`},
+{l:'i',q:'Can BERT generate text? How would you adapt a classifier like BERT for a security task?',a:`<p>Not naturally: bidirectional attention means it never learns a left-to-right factorisation. It can fill masks, but for generation use a decoder or encoder-decoder. For classification (e.g. malware report category or API-call sequence): tokenise (consider domain tokens for API names), take <code>h_CLS</code> or mean pooling, add dropout and a linear layer, fine-tune with cross-entropy on a small learning rate (2e-5), early-stop on validation macro-F1, and compare against simpler baselines (TF-IDF + linear, gradient boosting, CNN/LSTM) because structured behaviour traces are not ordinary language.</p>`},
+{l:'a',q:'Why is attention O(n²) and what are the ways to reduce it?',a:`<p>Every one of n tokens scores against n keys, giving an n×n matrix; for n=100k that is 10¹⁰ pairs per head per layer. Approaches: exact-but-efficient kernels (FlashAttention), fewer KV heads (GQA/MLA), sparse patterns (sliding window, local-global, block-sparse), low-rank/linear attention, state-space or hybrid layers, retrieval or memory so the model does not need to attend to everything, and context management (see Part 7).</p>`}
+];
+QA.genai=[
+{l:'b',q:'What is generative AI and how does it differ from discriminative AI?',a:`<p>Discriminative models learn <code>p(y|x)</code> or a boundary (spam vs not spam). Generative models learn the data distribution <code>p(x)</code> or <code>p(x|c)</code> and can <em>sample</em> new content: text, images, audio, code, video. LLMs are conditional generative models of text.</p>`},
+{l:'b',q:'Compare GANs, VAEs, diffusion models and autoregressive models.',a:`<ul><li><strong>Autoregressive</strong>: exact likelihood, token by token. Best for text/code; sequential decoding.</li><li><strong>VAE</strong>: encoder/decoder with a regularised latent and ELBO loss; fast, smooth, blurry.</li><li><strong>GAN</strong>: adversarial game; sharp but unstable (mode collapse), no likelihood.</li><li><strong>Diffusion</strong>: learn to reverse gradual noising; stable training, top image/video/audio quality; slow sampling reduced by distillation and fewer-step samplers. Flow matching is a closely related modern formulation.</li></ul>`},
+{l:'i',q:'Explain how diffusion models work, and what latent diffusion adds.',a:`<p>Forward process adds Gaussian noise over T steps: <code>x_t = √ᾱ_t x_0 + √(1-ᾱ_t) ε</code>. A network (U-Net or DiT, a Transformer) is trained to predict the noise ε (or the clean image / velocity). Sampling starts from noise and iteratively denoises, optionally with classifier-free guidance to strengthen conditioning on text.</p><p><strong>Latent diffusion</strong> runs this in the compressed latent space of an autoencoder, cutting compute dramatically; a text encoder conditions the denoiser via cross-attention.</p>`},
+{l:'b',q:'What is a hallucination and how do you reduce it?',a:`<p>A fluent output that is unsupported or false. Causes: the model optimises plausibility not truth, knowledge gaps, outdated training data, ambiguous prompts. Mitigations: RAG with citations, instructing the model to abstain when evidence is missing, tool use (calculators, search, code execution), constrained/structured output, self-consistency or verifier models, lower temperature for factual tasks, post-hoc fact-checking, evaluation with faithfulness metrics, and human review for high stakes.</p>`},
+{l:'i',q:'RLHF vs DPO vs RL with verifiable rewards: what is the difference?',a:`<ul><li><strong>RLHF</strong>: train a reward model from human preference pairs, then optimise the policy with PPO plus a KL penalty to the SFT model.</li><li><strong>DPO</strong>: derives a closed-form loss directly on preference pairs, no separate reward model or RL loop; simpler and stable.</li><li><strong>RLVR / GRPO-style</strong>: reward comes from automatic verifiers (unit tests, math answer checking), sampling groups of responses and normalising advantage within the group; powers reasoning models. Risk: reward hacking when the verifier is gameable.</li></ul>`},
+{l:'b',q:'What is prompt engineering and what are its limits?',a:`<p>Designing instructions, examples and format so the model behaves as intended: clear role and task, constraints, few-shot examples, step-by-step reasoning when useful, structured output schemas. Limits: brittle to wording, cannot add knowledge the model lacks, cannot guarantee safety, and grows costly with long prompts. It is the starting point; context engineering (Part 7) generalises it to everything entering the window.</p>`},
+{l:'i',q:'What are multimodal models and how are images fed to an LLM?',a:`<p>A vision encoder (ViT or similar) turns an image into patch embeddings; a projector/adapter maps them into the LLM's embedding space as "soft tokens" interleaved with text tokens; the decoder attends over both. Alternatives: native early-fusion models trained on mixed modalities from scratch, and contrastive dual encoders (CLIP-style) for retrieval. Challenges: token cost of high-resolution images, OCR/text-in-image accuracy, spatial reasoning, and prompt injection hidden in images.</p>`},
+{l:'b',q:'What are the main risks of generative AI?',a:`<ul><li>Hallucination and over-reliance.</li><li>Prompt injection, jailbreaks, data exfiltration, insecure tool use.</li><li>Privacy leakage and memorisation of training data.</li><li>Bias and harmful content; copyright and licensing concerns.</li><li>Misuse (phishing, malware assistance, deepfakes).</li></ul><p>Controls: input/output filtering, least-privilege tools, evaluation and red-teaming, human oversight, logging and audit, data governance.</p>`},
+{l:'i',q:'How do you evaluate a generative system in production?',a:`<p>Combine layers: offline golden datasets with task metrics; LLM-as-judge with rubrics (calibrated against human labels, controlling for position/verbosity bias); component metrics (retrieval recall, tool-call accuracy); safety red-team suites; online signals (thumbs, task completion, escalation rate), A/B tests, drift and cost/latency monitoring. Evaluate trajectories for agents, not just final answers.</p>`},
+{l:'a',q:'Design a GenAI product for a customer-support team. Walk through the architecture.',a:`<ol><li>Clarify goals: deflection rate, accuracy, CSAT, latency, compliance.</li><li>Ingest KB, tickets, policies into a hybrid index with metadata and ACLs.</li><li>Router classifies intent: FAQ (RAG), account actions (tools with authentication), escalation (human).</li><li>LLM answers with citations; guardrails for PII and policy; refuses when evidence is weak.</li><li>Actions go through typed tools with confirmations for refunds etc.</li><li>Evaluate with golden questions, shadow mode, then staged rollout; monitor groundedness, cost, escalations; feedback loop updates KB.</li></ol>`},
+{l:'b',q:'What is tokenisation and why does it matter?',a:`<p>Text is split into subword units (BPE, WordPiece, SentencePiece/Unigram, byte-level BPE). It controls vocabulary size, sequence length (and so cost), handling of rare words, code, numbers and non-English text. Quirks: arithmetic and character-level tasks suffer because tokens hide characters; non-English text may use more tokens (higher cost); different models cannot share token counts.</p>`},
+{l:'i',q:'What are embeddings and how are they trained?',a:`<p>Dense vectors where geometric closeness reflects semantic similarity. Modern text embedding models are encoder (or decoder-with-pooling) transformers trained with contrastive loss (InfoNCE): pull query-positive pairs together, push in-batch and hard negatives apart. Choose dimension, normalisation and similarity (cosine/dot) to match training; some support Matryoshka truncation to cut storage.</p>`}
+];
+QA.llm=[
+{l:'b',q:'Describe the end-to-end LLM training pipeline.',a:`<ol><li><strong>Data</strong>: crawl, filter, deduplicate, decontaminate, mix domains.</li><li><strong>Pretraining</strong>: next-token prediction on trillions of tokens with data/tensor/pipeline parallelism, mixed precision, AdamW, warm-up + cosine decay.</li><li><strong>Mid-training / long-context extension</strong>: higher-quality data, longer sequences.</li><li><strong>SFT</strong> on instruction/response data.</li><li><strong>Preference / RL</strong> (RLHF, DPO, RLVR) for helpfulness, safety, reasoning, tool use.</li><li><strong>Evaluation, red-teaming, quantisation, deployment, monitoring.</strong></li></ol>`},
+{l:'b',q:'Pretraining vs fine-tuning vs RAG: how do you choose?',a:`<p>Need <em>fresh, private or citable knowledge</em>: RAG. Need <em>style, format, tone, narrow skill or lower latency/cost</em>: fine-tune (LoRA). Need <em>new fundamental capability or domain language at scale</em>: continued pretraining. Often combine: fine-tune for behaviour, RAG for knowledge. Start with prompting, measure, then escalate.</p>`},
+{l:'i',q:'Explain LoRA and QLoRA. How do you choose rank and targets?',a:`<p>LoRA freezes W and learns a low-rank update <code>ΔW = (α/r)·B·A</code> with <code>A∈R^{r×k}</code>, <code>B∈R^{d×r}</code>, B initialised to zero so training starts at the base model. Trainable parameters drop to ~0.1-1%; adapters can be merged for zero inference overhead or swapped per task.</p><p><strong>QLoRA</strong> quantises the frozen base to 4-bit NF4 (with double quantisation and paged optimisers) and trains LoRA adapters in higher precision, enabling a 65B-scale fine-tune on one large GPU.</p><p>Tuning: start r=8-16, α=2r, target all attention and MLP projections for hard tasks, raise r if underfitting, watch for forgetting and overfitting on small data.</p>`},
+{l:'b',q:'What is the KV cache and why is it needed?',a:`<p>Without it, generating token t recomputes K and V for all previous tokens. The cache stores each layer's K and V for past tokens so each step only computes the new token's projections and attends to the cache. This turns per-step work from O(t²) to O(t) but consumes memory: <code>2 × layers × kv_heads × head_dim × tokens × batch × bytes</code>. For long contexts and many users the cache, not the weights, dominates memory, hence GQA/MLA, quantised caches, PagedAttention and prefix caching.</p>`},
+{l:'i',q:'Explain temperature, top-k, top-p and min-p sampling.',a:`<p><strong>Temperature</strong> divides logits before softmax (T→0 greedy, T>1 flatter). <strong>Top-k</strong> keeps k highest-probability tokens. <strong>Top-p</strong> (nucleus) keeps the smallest set with cumulative mass ≥ p, adapting to confidence. <strong>Min-p</strong> keeps tokens with probability ≥ p_min × p_max. Use low temperature for extraction/code/tool calls, higher for creative writing. Try the sampling lab above.</p>`},
+{l:'i',q:'What is quantisation and what are the trade-offs?',a:`<p>Store weights (and sometimes activations/KV) in lower precision: FP16/BF16 → FP8/INT8 → INT4. Weight-only methods (GPTQ, AWQ) shrink memory 2-4× and speed memory-bound decoding; activation quantisation also speeds compute-bound prefill. Risks: accuracy loss on outliers, long-context and reasoning tasks; always re-evaluate on your own tasks. Rule of thumb weight memory ≈ params × bytes per weight.</p>`},
+{l:'a',q:'How does vLLM achieve high throughput? (PagedAttention, continuous batching)',a:`<p><strong>PagedAttention</strong> stores KV cache in fixed-size non-contiguous blocks like OS virtual memory, eliminating fragmentation and allowing sharing of prefix blocks between requests. <strong>Continuous batching</strong> inserts new requests and removes finished ones at every decode step rather than waiting for a whole batch. Add prefix caching, chunked prefill, speculative decoding and tensor parallelism. Key metrics: TTFT, inter-token latency, tokens/s, GPU utilisation.</p>`},
+{l:'a',q:'Explain speculative decoding.',a:`<p>A small draft model proposes k tokens cheaply; the large target model scores all k in one forward pass and accepts the longest prefix consistent with its own distribution (rejection sampling keeps the output distribution identical). Because decoding is memory-bound, verifying k tokens costs about the same as generating one. Speed-up depends on acceptance rate; variants include Medusa heads, EAGLE and n-gram lookup.</p>`},
+{l:'i',q:'What are scaling laws and what did Chinchilla change?',a:`<p>Loss falls as a power law in parameters N, data D and compute C. Chinchilla showed many earlier models were under-trained: for a fixed compute budget, N and D should scale roughly together (~20 tokens per parameter). In practice, teams now <em>over-train</em> smaller models far beyond that ratio because inference cost dominates lifetime cost.</p>`},
+{l:'i',q:'How do reasoning models differ, and what is test-time compute?',a:`<p>They are trained (often with RL on verifiable tasks) to produce long chains of thought before answering, and to use more tokens on harder problems. Test-time compute scaling includes longer thinking, self-consistency/majority voting, best-of-n with a verifier and tree search. Trade-offs: higher latency and cost, risk of overthinking, and visible reasoning may not faithfully reflect the true computation.</p>`},
+{l:'i',q:'How do you evaluate an LLM?',a:`<p>Benchmarks (MMLU-style knowledge, GSM8K/MATH reasoning, HumanEval/SWE-bench code, tool-use suites) are useful but contaminated and saturating. Build task-specific evals: golden sets, rubrics, pairwise preference with LLM judges calibrated to humans, regression suites in CI, and online metrics. Measure quality, safety, latency, cost and robustness together.</p>`},
+{l:'a',q:'Estimate GPU memory to serve a 70B model with 8k context for 32 concurrent users.',a:`<p>Weights: 70B × 2 bytes (FP16) = 140 GB; FP8 = 70 GB; INT4 ≈ 35 GB. KV cache for a Llama-70B-like model (80 layers, 8 KV heads, head_dim 128, FP16): per token = 2×80×8×128×2 = 327,680 B ≈ 0.31 MB; ×8192 tokens ≈ 2.6 GB per sequence; ×32 ≈ 84 GB. Add activations and overhead (~10-20%). So FP16 needs ≈ 240+ GB (4× 80GB GPUs with tensor parallelism); FP8 weights plus FP8 cache can fit on 2×80GB. State assumptions and show the formula.</p>`},
+{l:'i',q:'What causes catastrophic forgetting and how do you avoid it when fine-tuning?',a:`<p>Gradient updates for the new task overwrite weights supporting earlier abilities. Mitigate with LoRA/adapters (base frozen), low learning rate, mixing in general/replay data, early stopping, regularisation (KL to base), and evaluating on a held-out general benchmark alongside the target task.</p>`},
+{l:'b',q:'What are common LLM failure modes in production?',a:`<p>Hallucination, format drift (invalid JSON), prompt injection, sensitivity to prompt wording, non-determinism, latency spikes, context overflow, silent model version changes, cost blow-ups from long contexts or agent loops, and evaluation gaps. Mitigate with structured output/constrained decoding, retries and validators, version pinning, caching, budgets and monitoring.</p>`}
+];
+QA.rag=[
+{l:'b',q:'What is RAG and when should you use it instead of fine-tuning?',a:`<p>Retrieval-Augmented Generation retrieves relevant documents at query time and supplies them in the prompt. Use it for knowledge that is <strong>fresh, private, large or must be cited</strong>, and where access control matters (filter at retrieval time). Fine-tuning changes behaviour but is a poor, costly way to inject facts and cannot enforce per-user permissions. Often combine both.</p>`},
+{l:'b',q:'Walk through a RAG pipeline end to end.',a:`<p><strong>Offline</strong>: load documents, parse (tables, OCR), clean, chunk, enrich with metadata, embed, index (vector + keyword). <strong>Online</strong>: rewrite/expand query, retrieve top-k (hybrid), rerank, assemble context within a token budget, generate with instructions to cite and to abstain, validate output, log trace. <strong>Continuous</strong>: evaluate retrieval and generation separately, refresh the index, collect feedback.</p>`},
+{l:'b',q:'How do you choose chunk size and overlap?',a:`<p>Too small: chunks lose context and the answer is split. Too large: embeddings blur several topics, precision falls and tokens are wasted. Typical starting point is 200-500 tokens with 10-20% overlap, but <em>tune on your own eval set</em>. Prefer structure-aware splitting (headings, paragraphs, code blocks, table rows) over fixed size; consider parent-child retrieval (retrieve small, return the surrounding section) and contextual chunk headers. Use the chunking lab above to see overlap.</p>`},
+{l:'i',q:'Dense vs sparse vs hybrid retrieval: explain with trade-offs.',a:`<p><strong>Sparse (BM25)</strong>: exact term matching, great for IDs, names, error codes; fails on paraphrase. <strong>Dense</strong>: semantic similarity from embeddings; handles paraphrase; weaker on rare tokens and numbers. <strong>Hybrid</strong> runs both and fuses with Reciprocal Rank Fusion (<code>Σ 1/(k+rank)</code>) or weighted scores, then reranks. Hybrid is usually the best default in production.</p>`},
+{l:'i',q:'Why add a reranker, and bi-encoder vs cross-encoder?',a:`<p>A bi-encoder embeds query and document independently (fast, precomputable, approximate). A cross-encoder reads query and document together with full attention, giving much more accurate relevance but costing one forward pass per pair, so it is applied only to the top 20-100 candidates. Pattern: retrieve wide for recall, rerank narrow for precision, send top 3-8 to the LLM.</p>`},
+{l:'i',q:'Explain vector indexes: flat, HNSW, IVF, PQ.',a:`<ul><li><strong>Flat</strong>: exact brute force; fine up to ~hundreds of thousands of vectors.</li><li><strong>HNSW</strong>: navigable small-world graph; high recall, low latency, memory-hungry; tune <code>M</code>, <code>efConstruction</code>, <code>efSearch</code>.</li><li><strong>IVF</strong>: cluster vectors, search only nearest <code>nprobe</code> clusters.</li><li><strong>PQ / scalar quantisation</strong>: compress vectors to save memory at some recall cost.</li></ul><p>Measure recall@k against exact search and p95 latency. Also consider filtered search performance and update/delete costs.</p>`},
+{l:'i',q:'How do you improve a RAG system that returns irrelevant answers?',a:`<p>Diagnose by stage before changing anything: (1) Is the right chunk in the corpus and parsed correctly? (2) Is it retrieved in top-k (retrieval recall)? (3) Is it ranked high enough after reranking? (4) Does the model use it faithfully? Fixes: better parsing, structure-aware chunking, hybrid search, query rewriting/multi-query/HyDE, metadata filters, reranking, domain-tuned embeddings, larger k with reranking, stricter prompting, citation checks. Build a labelled question→source set so each change is measured.</p>`},
+{l:'i',q:'How do you evaluate RAG?',a:`<p>Evaluate separately. <strong>Retrieval</strong>: recall@k, precision@k, MRR, nDCG against labelled relevant chunks. <strong>Generation</strong>: faithfulness/groundedness (every claim supported by context), answer relevance, completeness, citation accuracy, refusal correctness. Use a golden set plus synthetic questions, LLM-judge with calibration, and online feedback. Frameworks such as RAGAS, TruLens or custom harnesses help; track regressions in CI.</p>`},
+{l:'a',q:'What is GraphRAG and when is it worth the cost?',a:`<p>Build a knowledge graph (entities, relations) from the corpus, often with community detection and pre-written community summaries. Retrieval walks the graph or uses summaries, enabling <strong>multi-hop</strong> questions ("which vendors connected to this incident also appear in…") and <strong>global</strong> questions ("what are the main themes?") that chunk-level similarity cannot answer. Cost: expensive indexing with LLM extraction, schema design, graph freshness. Use when relationships dominate; otherwise hybrid + rerank is cheaper.</p>`},
+{l:'a',q:'What is Agentic RAG?',a:`<p>The LLM controls retrieval as a tool: it decides whether to retrieve, rewrites or decomposes queries, picks among sources (vector DB, SQL, web, APIs), inspects results, and loops until evidence is sufficient, optionally verifying its draft against sources (self-RAG / corrective RAG). Gains: handles multi-step questions. Costs: latency, token spend, variability, harder evaluation; protect with step limits and tracing.</p>`},
+{l:'i',q:'How do you handle PDFs, tables and images in RAG?',a:`<p>Use layout-aware parsers or vision-language models to extract text, reading order, tables (keep as markdown/HTML with header context) and figures (caption or describe). Chunk tables by rows with headers repeated; store the page and bbox for citations. For scanned documents add OCR with confidence checks. For image-heavy corpora, multimodal embeddings or page-image retrieval can outperform text extraction.</p>`},
+{l:'a',q:'How do you secure a multi-tenant RAG system?',a:`<ul><li>Enforce ACLs at <strong>retrieval time</strong> via metadata filters tied to the authenticated user, never by asking the model to hide content.</li><li>Isolate indexes or namespaces per tenant for strict separation.</li><li>Treat retrieved text as untrusted: defend against indirect prompt injection (delimit, strip instructions, restrict tool privileges).</li><li>Redact PII, log access, set retention.</li><li>Test with adversarial documents and cross-tenant probes.</li></ul>`},
+{l:'i',q:'Long context vs RAG: which is better?',a:`<p>Long context removes retrieval errors and suits few, bounded documents, but costs more per query, suffers context rot and "lost in the middle" effects, and cannot cover corpora larger than the window. RAG scales to huge corpora cheaply with citations and permissions, but depends on retrieval quality. Many systems use RAG to select and long context to read: retrieve generously, rerank, then give the model whole relevant sections. Prompt caching narrows the cost gap for repeated documents.</p>`},
+{l:'i',q:'What is contextual retrieval / HyDE / query transformation?',a:`<p><strong>Contextual retrieval</strong> prepends a short LLM-generated description of where a chunk sits in its document before embedding and BM25 indexing, reducing lost-context failures. <strong>HyDE</strong> generates a hypothetical answer and embeds it to search closer to answer-style text. <strong>Multi-query / decomposition</strong> splits a complex question into sub-queries; <strong>step-back</strong> asks a more general question first.</p>`}
+];
+QA.agent=[
+{l:'b',q:'What is an AI agent? How does it differ from a chatbot or a workflow?',a:`<p>An agent is an LLM-driven system that <em>decides its own next actions</em> in a loop: observe, reason, call tools, observe results, repeat until done, with goals and some autonomy. A chatbot replies turn by turn; a <strong>workflow</strong> follows code-defined steps with LLM calls inside. Prefer workflows for predictable tasks, agents for open-ended ones where steps cannot be hard-coded, and accept higher cost, latency and error compounding.</p>`},
+{l:'b',q:'Explain the ReAct pattern and the basic agent loop.',a:`<p>ReAct interleaves <em>Reasoning</em> and <em>Acting</em>: the model thinks about what to do, emits a tool call, receives the observation, and continues. A typical loop: assemble context → model call → if tool call: validate, authorise, execute, append result → repeat; if final answer or stop condition: return. Add budgets (steps, tokens, time), error handling, and loop detection. Modern APIs make this native via tool/function calling.</p>`},
+{l:'b',q:'What are the main agentic design patterns?',a:`<p>From Anthropic's guidance: <strong>prompt chaining</strong>, <strong>routing</strong>, <strong>parallelisation</strong> (sectioning, voting), <strong>orchestrator-workers</strong>, <strong>evaluator-optimiser</strong>, and the fully autonomous <strong>agent</strong>. Others: planning (plan-then-execute), reflection/self-critique, tool-use, memory, human-in-the-loop, and multi-agent debate. Start simple; add pattern complexity only when evals show gains.</p>`},
+{l:'b',q:'How does tool / function calling work?',a:`<p>You provide the model a list of tools with names, descriptions and JSON-schema parameters. The model emits a structured call (name + arguments) instead of text; your code validates the arguments, runs the function, and returns the result as a message; the model then continues. The model never executes anything itself. Quality depends on tool names, descriptions, examples, schemas and error messages: this is the agent-computer interface.</p>`},
+{l:'i',q:'What is MCP and why was it created?',a:`<p>The Model Context Protocol is an open standard for connecting AI applications to external systems. Before it, every app-to-tool integration was bespoke (N×M). With MCP, a <strong>host</strong> (e.g. an IDE or chat app) runs <strong>clients</strong> that connect to <strong>servers</strong> exposing <strong>tools</strong> (functions), <strong>resources</strong> (data) and <strong>prompts</strong> (templates) via JSON-RPC over stdio or streamable HTTP, with capability negotiation and authorisation. Build a server once, use it from many clients. Security concerns: untrusted servers, tool poisoning, over-broad scopes, confused deputy, token passthrough; require consent and least privilege.</p>`},
+{l:'i',q:'MCP vs A2A vs plain function calling: how do they relate?',a:`<p>Function calling is the model-level mechanism for emitting structured calls. MCP standardises how an application discovers and invokes <em>tools and data</em> from external servers (agent ↔ tool). A2A standardises how independent <em>agents</em> discover each other (agent cards), delegate tasks and exchange results (agent ↔ agent). They are complementary layers.</p>`},
+{l:'i',q:'Single agent or multi-agent? When does multi-agent help?',a:`<p>Multi-agent helps when work is <strong>parallelisable and breadth-heavy</strong> (research across many sources), needs <strong>context isolation</strong> (each worker explores in a clean window and returns a summary), or needs different tools/permissions per role. It hurts for tightly coupled tasks (shared state, many dependencies), costs more tokens, and adds coordination failures. Start with one agent with good tools; split only when context or specialisation forces it.</p>`},
+{l:'i',q:'How do agents use memory?',a:`<ul><li><strong>Working memory</strong>: the current context window.</li><li><strong>Short-term / session</strong>: conversation history, compacted as needed.</li><li><strong>Long-term</strong>: external store (files, DB, vector index) of facts, preferences, procedures; written by the agent and retrieved when relevant.</li><li><strong>Episodic / semantic / procedural</strong> split: past events, general facts, learned how-tos (skills).</li></ul><p>Challenges: deciding what to store, staleness, contradiction, privacy, and retrieval accuracy.</p>`},
+{l:'a',q:'What is prompt injection and how do you defend agents against it?',a:`<p><strong>Direct</strong> injection: user text tries to override instructions. <strong>Indirect</strong>: malicious instructions hidden in retrieved web pages, emails, files or tool outputs. Agents are especially exposed because they act. Defence in depth: treat all external content as data; least-privilege tools; separate read from write capabilities; human approval for sensitive actions; sandboxing; output/egress filtering; allow-lists for domains and commands; detection classifiers; breaking the "lethal trifecta" (private data + untrusted content + external communication) in one agent; logging and red-teaming. No prompt alone is a sufficient defence.</p>`},
+{l:'i',q:'How do you evaluate agents?',a:`<p>Outcome metrics (task success verified by tests or state checks), trajectory metrics (steps, tool-call correctness, wasted calls, loops), cost and latency, safety (policy violations, unauthorised actions), and reliability across repeated runs (pass^k, because agents are stochastic). Use simulated environments or sandboxes, replayable traces, and LLM judges for open-ended parts. Benchmarks like SWE-bench or tau-bench are references, but build your own task suite.</p>`},
+{l:'a',q:'Why do agents fail, and how do you make them reliable?',a:`<p>Failures: wrong tool selection, bad arguments, compounding errors over long horizons, context overflow, looping, premature "done", hallucinated results, injection. Reliability levers: simpler tools with clear schemas, verification steps (tests, schema validation, second-model review), checkpoints and rollbacks, narrowing scope per step, planning artifacts (checklists), retries with error feedback, budgets and human escalation, and strong tracing to learn from failures. Many of these are harness features (Part 6).</p>`},
+{l:'a',q:'Design an agent that triages security alerts.',a:`<ol><li>Trigger: alert arrives in queue; router classifies type.</li><li>Tools (read-only first): SIEM query, threat-intel lookup, asset inventory, ticket history, sandbox detonation.</li><li>Agent gathers evidence, forms hypothesis, scores severity, writes a cited summary.</li><li>Containment actions (isolate host, block IP) require human approval; scoped credentials; every call logged.</li><li>Guardrails: injection-safe handling of log content, step/cost limits, deterministic playbooks for known cases.</li><li>Evaluate on historical incidents; measure time-to-triage, precision of escalations, analyst override rate.</li></ol>`},
+{l:'b',q:'What is human-in-the-loop and when is it required?',a:`<p>Placing human approval or review at defined points: irreversible or high-impact actions (payments, deletions, production changes, external messages), low-confidence decisions, and policy exceptions. Implement as interrupt/approve steps with clear diffs of the intended action, timeouts and audit logs. Balance: too many prompts cause approval fatigue; use risk-tiered permissions.</p>`},
+{l:'i',q:'Compare agent frameworks (LangGraph, OpenAI Agents SDK, Claude Agent SDK, CrewAI, AutoGen).',a:`<p>Frameworks give loop, tool plumbing, state, tracing and multi-agent routing. Graph-based tools (LangGraph) offer explicit control flow and checkpointing; SDKs from model vendors give tight integration with tool calling, handoffs, guardrails, sessions and tracing; role-based frameworks (CrewAI) speed prototyping. Anthropic's advice: start by calling the API directly, since frameworks add abstraction layers that can obscure prompts and responses and make debugging harder. Choose on observability, state/persistence, control, and team skills.</p>`}
+];
+QA.harness=[
+{l:'b',q:'What is "harness engineering"?',a:`<p>The discipline of designing everything around the model that makes an agent dependable: the agent loop, system prompt, tool set and schemas, context management, permissions and sandboxing, hooks/guardrails, memory and state, sub-agent orchestration, verification, observability and cost controls. The model provides intelligence; the harness provides <strong>reliability, safety and continuity</strong>. As models converge in capability, harness quality becomes a primary differentiator.</p><div class="tip">One-liner: "Agent = model + harness."</div>`},
+{l:'b',q:'Name the components of an agent harness.',a:`<ul><li><strong>Loop/orchestrator</strong> and stop conditions.</li><li><strong>System prompt &amp; instructions</strong> (project rules, skills).</li><li><strong>Tool layer</strong> (built-ins, MCP servers) with schemas and result shaping.</li><li><strong>Context manager</strong> (compaction, clearing, caching).</li><li><strong>Permission &amp; sandbox layer</strong>.</li><li><strong>Hooks</strong> (deterministic pre/post tool-use checks).</li><li><strong>Memory &amp; state</strong> (files, git, DB).</li><li><strong>Sub-agent manager</strong>.</li><li><strong>Verification</strong> (tests, linters, reviewers).</li><li><strong>Tracing, evals, cost accounting</strong>.</li></ul>`},
+{l:'i',q:'Why are hooks better than prompt instructions for enforcing rules?',a:`<p>A prompt instruction is a suggestion the model may forget, misread or be talked out of. A <strong>hook</strong> is deterministic code run by the harness at lifecycle points (before a tool call, after an edit, on stop): it can block a command, run a formatter, scan for secrets, or force tests to pass before "done". Use prompts for guidance and hooks for guarantees.</p>`},
+{l:'i',q:'How do you design good tools for an agent?',a:`<ul><li>Few, distinct tools; avoid overlapping functionality that confuses selection.</li><li>Names and descriptions written like for a new teammate: when to use, what it returns, edge cases, examples.</li><li>Strict JSON schemas; absolute paths or IDs; make illegal states unrepresentable.</li><li>Return <strong>token-efficient, meaningful</strong> output (names over UUIDs, pagination, truncation with hints, filters).</li><li>Actionable error messages that tell the model how to fix the call.</li><li>Evaluate tools by running realistic tasks and reading transcripts; iterate.</li></ul>`},
+{l:'i',q:'Explain the initializer / worker pattern for long-running agents.',a:`<p>Because each session starts without memory, the first session sets up durable scaffolding: an <code>init.sh</code> to boot the environment, a progress file, a git baseline, and a JSON feature list with every item marked failing. Each subsequent session: read progress and git log, start the app, run a smoke test, pick <em>one</em> feature, implement, verify end-to-end like a user, commit, update notes. Rules: only flip <code>passes</code>, never delete tests. This prevents one-shotting and premature victory, and keeps the repository in a mergeable state between shifts.</p>`},
+{l:'i',q:'How do permissions and sandboxing work in a coding-agent harness?',a:`<p>Layered controls: allow/deny/ask rules per tool and command pattern; permission modes (read-only/plan, edit with approval, auto-accept edits, fully autonomous in isolated environments); filesystem and network sandboxes (containers, microVMs, restricted egress); scoped credentials; protected paths; and audit logs. Principle: autonomy proportional to blast radius. Run risky autonomy only in disposable environments with no secrets.</p>`},
+{l:'i',q:'How should an agent verify its own work?',a:`<p>Give it ways to observe real outcomes: run unit and integration tests, linters and type-checkers, launch the app and drive it with browser automation, inspect screenshots, compare against a spec or feature list, and optionally use a separate reviewer agent with fresh context. Insist on end-to-end checks rather than "it compiles". Verification must be executable; a feature list that only the writer can mark done invites false positives.</p>`},
+{l:'a',q:'How do you control cost and runaway loops?',a:`<p>Hard budgets (max turns, tokens, wall-clock, dollars) per task and per user; loop detection (repeated identical calls or no state change); cheaper models for routing and sub-tasks; prompt caching and result clearing; early escalation to a human on repeated failure; per-tool rate limits; dashboards and alerts on cost per successful task rather than cost per call.</p>`},
+{l:'a',q:'What should you log and trace in an agent system?',a:`<p>Full prompts and context versions, every model call (model, parameters, tokens, latency, cost), every tool call with arguments and results, decisions to compact or clear, permission prompts and outcomes, sub-agent spawn/return, final output and verification results, plus user feedback. Traces enable replay, regression evals from real failures, security forensics and cost analysis. Redact secrets and PII, and set retention policy.</p>`},
+{l:'a',q:'How would you run evaluations on a harness change (prompt, tool or compaction strategy)?',a:`<p>Fix a task suite with automatic success checks, run N repetitions per variant (agents are non-deterministic), compare success rate, steps, tokens and cost with confidence intervals, review failing trajectories, then canary in production behind a flag. Change one thing at a time; keep the model constant when isolating harness effects. Track both capability and regression suites.</p>`},
+{l:'i',q:'What are Skills, sub-agents and slash commands in agent harnesses?',a:`<p><strong>Skills</strong>: folders of instructions, scripts and resources loaded on demand (progressive disclosure: metadata first, details only when relevant), a context-efficient way to add procedural knowledge. <strong>Sub-agents</strong>: separate model instances with their own context, tools and prompt for a focused job, returning a summary. <strong>Slash commands / prompts</strong>: user-invoked reusable prompts. All three are harness features that shape context and capabilities without retraining the model.</p>`},
+{l:'a',q:'Plan vs act: how should a harness handle planning?',a:`<p>Have the agent produce an explicit plan or checklist (stored as an artifact, not only in context), get approval for risky or large tasks, then execute step by step, updating the checklist as ground truth. Re-plan when observations contradict assumptions. A read-only planning mode prevents premature edits and gives humans a cheap review point.</p>`}
+];
+QA.context=[
+{l:'b',q:'What is context engineering and how does it differ from prompt engineering?',a:`<p>Prompt engineering focuses on writing instructions. <strong>Context engineering</strong> is the broader, iterative practice of deciding what goes into the model's window at <em>each</em> call: system prompt, tool definitions, retrieved data, memory, message history, tool results, examples. The goal: the smallest set of high-signal tokens that maximises the likelihood of the desired outcome. It matters most for multi-turn agents whose context keeps growing.</p>`},
+{l:'b',q:'What is context rot?',a:`<p>As the number of tokens grows, the model's ability to recall and use specific information degrades gradually, not at a hard cliff. It stems from the finite "attention budget" spread over n² pairwise relationships and from training distributions favouring shorter sequences. Consequence: context is a scarce resource with diminishing returns; a bigger window does not remove the need to curate.</p>`},
+{l:'i',q:'Explain compaction and how to tune it.',a:`<p>When history nears the window limit, summarise it and start a fresh window seeded with the summary. Keep architectural decisions, unresolved issues, key file/state references and open to-dos; discard redundant tool output. Tune by first <strong>maximising recall</strong> (do not drop anything critical), then iterating to improve <strong>precision</strong> (remove noise). The lightest-touch variant is clearing old tool results. Evaluate by checking whether the post-compaction agent can continue correctly.</p>`},
+{l:'i',q:'What is just-in-time retrieval and when is it better than pre-loading?',a:`<p>Instead of stuffing data into context up front, the agent holds lightweight identifiers (file paths, queries, URLs) and loads details with tools only when needed (grep, glob, head/tail, SQL). Benefits: smaller context, progressive disclosure, always-fresh data, structure (names, folders, timestamps) as navigation signals. Costs: slower, needs good tool guidance. Hybrid is common: preload a little (project instructions), explore the rest on demand.</p>`},
+{l:'i',q:'How do structured notes and external memory help?',a:`<p>The agent periodically writes progress, decisions and to-dos to a file or memory store outside the window (e.g. NOTES.md, a to-do list) and reads them back after resets. This gives persistence across compaction and sessions at near-zero context cost, ideal for milestone-driven work. Keep notes terse and structured, and verify them against the real state because they can go stale.</p>`},
+{l:'i',q:'When and why use sub-agents for context management?',a:`<p>A sub-agent explores in a clean window, possibly burning tens of thousands of tokens on searching and reading, then returns only a condensed summary (about 1-2k tokens) to the lead agent. This isolates noise and enables parallel exploration. Costs: more total tokens, coordination overhead, and information loss if the summary omits something the lead needs, so ask for specific deliverables and citations to sources.</p>`},
+{l:'i',q:'How does prompt caching influence context design?',a:`<p>Providers cache the processed prefix of a prompt so repeated prefixes are cheaper and faster. Therefore put stable content first (system prompt, tool definitions, reference documents) and volatile content last (latest user turn, fresh tool output). Avoid inserting timestamps or reordering tools early in the prompt, and avoid edits to earlier history, because any change in the prefix invalidates the cache from that point.</p>`},
+{l:'a',q:'How do you decide what to put in the system prompt?',a:`<p>Aim for the "right altitude": specific enough to guide, flexible enough to let the model use judgment. Avoid brittle hard-coded if/else lists and avoid vague platitudes. Organise into sections (role, goals, constraints, tool guidance, output format) with clear delimiters. Start minimal with the best model, test, then add instructions only for observed failure modes. Prefer a few diverse canonical examples to long lists of edge cases.</p>`},
+{l:'a',q:'"Lost in the middle": what is it and how do you mitigate it?',a:`<p>Models often use information at the beginning and end of a long context better than information in the middle. Mitigations: put critical instructions and the question at the end (and restate key constraints), order retrieved chunks by relevance with the best at the edges, reduce context via reranking, ask the model to quote relevant passages first, and split long inputs across steps or sub-agents.</p>`},
+{l:'i',q:'Context engineering for RAG: what goes beyond retrieval?',a:`<p>Budget tokens across instructions, history, retrieved passages and output. Deduplicate and merge overlapping chunks, attach source metadata, compress passages (extractive trimming or summarisation), order by relevance, separate trusted instructions from untrusted data with delimiters, and drop low-scoring items rather than filling the window. Measure answer quality versus context size to find the knee of the curve.</p>`},
+{l:'a',q:'Design the context strategy for a coding agent working in a large repository.',a:`<ol><li>Small always-on instruction file (build commands, conventions, architecture map).</li><li>No bulk loading: use glob/grep/read with ranges; file tree and names guide exploration.</li><li>Truncate or clear large tool outputs (logs, test runs), keeping errors and summaries.</li><li>Maintain a task checklist and notes file; commit often so git history is durable memory.</li><li>Delegate broad searches to sub-agents that return file paths and findings.</li><li>Auto-compact near the limit preserving decisions, failing tests and next steps.</li><li>Keep a stable prefix to benefit from caching; measure tokens per resolved task.</li></ol>`},
+{l:'a',q:'How do you measure whether your context strategy works?',a:`<p>Create a task suite and compare variants on success rate, tokens, latency, cost, number of compactions and error types (forgotten constraints, repeated work, contradictory edits). Run needle-style probes after compaction to check retention. Inspect traces for irrelevant context. Optimise for cost per successful task, and re-run when you change models because optimal context size shifts.</p>`},
+{l:'b',q:'Short answer: list the four levers of context engineering.',a:`<p><strong>Write</strong> (persist outside the window: notes, memory), <strong>Select</strong> (retrieve only what is relevant), <strong>Compress</strong> (summarise, trim, clear tool output), <strong>Isolate</strong> (sub-agents, separate windows, sandboxed state).</p>`}
+];
+(function(){
+const $=(s,r)=>(r||document).querySelector(s), $$=(s,r)=>[...(r||document).querySelectorAll(s)];
+const el=(h)=>{const t=document.createElement('template');t.innerHTML=h.trim();return t.content.firstChild};
+const NS='http://www.w3.org/2000/svg';
+const lsGet=k=>{try{return localStorage.getItem(k)}catch(e){return null}},lsSet=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
+
+/* ---------- theme / sidebar ---------- */
+const root=document.documentElement;
+function setT(t){root.dataset.theme=t;lsSet('t',t)}
+setT(lsGet('t')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'));
+$('#theme').onclick=()=>setT(root.dataset.theme==='dark'?'light':'dark');
+const mq=matchMedia('(max-width:980px)');
+$('#menu').onclick=()=>{ if(mq.matches)$('#side').classList.toggle('open'); else document.body.classList.toggle('nosb') };
+
+/* ---------- Q&A render ---------- */
+const LV={b:['Basic','b'],i:['Intermediate','i'],a:['Advanced','a']};
+let total=0;
+$$('.qlist').forEach(box=>{
+  const items=QA[box.dataset.sec]||[]; total+=items.length;
+  const tools=el(`<div class="qtools"><button data-f="all" class="on">All</button><button data-f="b">Basic</button><button data-f="i">Intermediate</button><button data-f="a">Advanced</button><button data-x="1">Expand all</button><button data-x="0">Collapse all</button><span class="cnt">${items.length} questions</span></div>`);
+  box.append(tools);
+  const list=el('<div></div>');box.append(list);
+  items.forEach((it,i)=>{
+    const d=el(`<details class="qa" data-l="${it.l}"><summary><span class="lv ${LV[it.l][1]}">${LV[it.l][0]}</span><span>Q${i+1}. ${it.q}</span></summary><div class="ans">${it.a}</div></details>`);
+    list.append(d);
+  });
+  tools.addEventListener('click',e=>{
+    const b=e.target.closest('button');if(!b)return;
+    if(b.dataset.f){ $$('button[data-f]',tools).forEach(x=>x.classList.toggle('on',x===b));
+      $$('.qa',list).forEach(q=>q.hidden=!(b.dataset.f==='all'||q.dataset.l===b.dataset.f)); }
+    if(b.dataset.x){ $$('.qa',list).forEach(q=>{ if(!q.hidden) q.open=b.dataset.x==='1' }) }
+  });
+});
+$('#nq').textContent=total;
+
+/* ---------- global search ---------- */
+const gs=$('#gsearch');
+gs.addEventListener('input',()=>{
+  const q=gs.value.trim().toLowerCase();
+  $$('.qa').forEach(d=>{
+    if(!q){d.hidden=false;return}
+    const hit=d.textContent.toLowerCase().includes(q);
+    d.hidden=!hit; if(hit)d.open=true;
+  });
+  $$('.qtools .cnt').forEach(c=>{
+    const list=c.closest('.qlist'); const n=$$('.qa',list).filter(x=>!x.hidden).length;
+    c.textContent=q?`${n} match${n===1?'':'es'}`:`${$$('.qa',list).length} questions`;
+  });
+});
+addEventListener('keydown',e=>{ if(e.key==='/'&&document.activeElement!==gs&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){e.preventDefault();gs.focus()} });
+
+/* ---------- diagram engine ---------- */
+function mk(tag,attrs,txt){const n=document.createElementNS(NS,tag);for(const k in attrs)n.setAttribute(k,attrs[k]);if(txt!==undefined)n.textContent=txt;return n}
+function box(n){return {x:n.x,y:n.y,w:n.w||150,h:n.h||50}}
+function anchor(b,side){ if(side==='t')return [b.x+b.w/2,b.y]; if(side==='b')return [b.x+b.w/2,b.y+b.h]; if(side==='l')return [b.x,b.y+b.h/2]; return [b.x+b.w,b.y+b.h/2] }
+function pickSides(a,b){
+  const ac=[a.x+a.w/2,a.y+a.h/2], bc=[b.x+b.w/2,b.y+b.h/2], dx=bc[0]-ac[0], dy=bc[1]-ac[1];
+  if(Math.abs(dy)>Math.abs(dx)*0.6) return dy>0?['b','t']:['t','b'];
+  return dx>0?['r','l']:['l','r'];
+}
+function buildDiagram(host,spec){
+  const svg=mk('svg',{viewBox:`${spec.x0||0} 0 ${spec.w} ${spec.h}`,role:'img','aria-label':spec.title||'diagram'});
+  const defs=mk('defs',{}); const m=mk('marker',{id:'ar'+spec.id,viewBox:'0 0 10 10',refX:'9',refY:'5',markerWidth:'7',markerHeight:'7',orient:'auto-start-reverse'});
+  m.append(mk('path',{d:'M0 0L10 5L0 10z'})); defs.append(m); svg.append(defs);
+  (spec.groups||[]).forEach(g=>{svg.append(mk('rect',{class:'grp',x:g.x,y:g.y,width:g.w,height:g.h,rx:4}));svg.append(mk('text',{class:'gl',x:g.x+8,y:g.y+14},g.label))});
+  const nodes={}; spec.nodes.forEach(n=>nodes[n.id]=n);
+  const edgeEls=[];
+  spec.edges.forEach(e=>{
+    const [f,t,label,opts]=e; const o=opts||{}; const a=box(nodes[f]),b=box(nodes[t]); let d;
+    if(o.route==='D'){ const y=Math.max(a.y+a.h,b.y+b.h)+26; const p=anchor(a,'b'),q=anchor(b,'b'); d=`M${p[0]} ${p[1]} V${y} H${q[0]} V${q[1]}`; }
+    else if(o.route==='L'){ const x=Math.min(a.x,b.x)-24; const p=anchor(a,'l'),q=anchor(b,'l'); d=`M${p[0]} ${p[1]} H${x} V${q[1]} H${q[0]}`; }
+    else { const s=pickSides(a,b); const p=anchor(a,s[0]),q=anchor(b,s[1]); d=`M${p[0]} ${p[1]} L${q[0]} ${q[1]}`; }
+    const path=mk('path',{class:'edge'+(o.dash?' dash':''),d,'marker-end':`url(#ar${spec.id})`}); svg.append(path);
+    let lab=null;
+    if(label){ const s=pickSides(a,b); const p=o.route?null:anchor(a,s[0]),q=o.route?null:anchor(b,s[1]);
+      let lx,ly; if(o.route==='D'){ lx=(anchor(a,'b')[0]+anchor(b,'b')[0])/2; ly=Math.max(a.y+a.h,b.y+b.h)+22 } else if(o.route==='L'){ lx=Math.min(a.x,b.x)-22; ly=(a.y+b.y)/2+25 } else { lx=(p[0]+q[0])/2; ly=(p[1]+q[1])/2-4 }
+      lab=mk('text',{class:'el',x:lx,y:ly,'text-anchor':'middle'},label); svg.append(lab); }
+    edgeEls.push({f,t,path});
+  });
+  const nodeEls={};
+  spec.nodes.forEach(n=>{
+    const b=box(n); const g=mk('g',{class:'node',tabindex:'0','data-id':n.id});
+    g.append(mk('rect',{x:b.x,y:b.y,width:b.w,height:b.h,rx:3}));
+    if(n.s){ g.append(mk('text',{class:'t1',x:b.x+b.w/2,y:b.y+b.h/2-3,'text-anchor':'middle'},n.t)); g.append(mk('text',{class:'t2',x:b.x+b.w/2,y:b.y+b.h/2+12,'text-anchor':'middle'},n.s)); }
+    else g.append(mk('text',{class:'t1',x:b.x+b.w/2,y:b.y+b.h/2+4,'text-anchor':'middle'},n.t));
+    svg.append(g); nodeEls[n.id]=g;
+  });
+  const wrap=el(`<div class="row2${spec.w>700?' stk':''}"><div class="svgbox"></div><div><div class="ro" data-info></div><div style="margin-top:8px"><button data-a="prev">◀ Back</button> <button data-a="play">▶ Play</button> <button data-a="next">Next ▶</button></div></div></div>`);
+  $('.svgbox',wrap).append(svg); host.append(wrap);
+  const info=$('[data-info]',wrap); const order=spec.order||spec.nodes.map(n=>n.id); let idx=-1,timer=null;
+  function show(id){
+    const n=nodes[id]; $$('.node',svg).forEach(x=>x.classList.remove('act')); nodeEls[id].classList.add('act');
+    edgeEls.forEach(e=>e.path.classList.toggle('act',e.t===id&&order.indexOf(e.f)===order.indexOf(id)-1));
+    const i=order.indexOf(id); if(i>=0)idx=i;
+    info.innerHTML=`<h4>${n.t}</h4>${n.d||''}${i>=0?`<p style="color:var(--mute)">Step ${i+1} of ${order.length}</p>`:''}`;
+  }
+  function stop(){clearInterval(timer);timer=null;$('[data-a=play]',wrap).textContent='▶ Play'}
+  svg.addEventListener('click',e=>{const g=e.target.closest('.node');if(g){stop();show(g.dataset.id)}});
+  svg.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){const g=e.target.closest('.node');if(g){e.preventDefault();stop();show(g.dataset.id)}}});
+  wrap.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+    if(b.dataset.a==='next'){stop();show(order[(idx+1)%order.length])}
+    if(b.dataset.a==='prev'){stop();show(order[(idx-1+order.length)%order.length])}
+    if(b.dataset.a==='play'){ if(timer){stop();return} b.textContent='❚❚ Pause'; show(order[(idx+1)%order.length]);
+      timer=setInterval(()=>{ if(idx>=order.length-1){stop();return} show(order[idx+1]); },1700) } });
+  show(order[0]); idx=0;
+}
+const N=(id,x,y,t,s,d,w,h)=>({id,x,y,t,s,d,w:w||150,h:h||50});
+const DG={};
+DG.transformer={id:'tf',x0:150,w:620,h:665,title:'Decoder-only transformer',
+ groups:[{x:196,y:122,w:310,h:352,label:'× N LAYERS'}],
+ nodes:[
+  N('tok',230,8,'Tokenizer','text → token IDs','<p>BPE / SentencePiece splits text into subwords and maps them to integer IDs. Shape: <b>[B, T]</b>.</p><p>Why it matters: vocabulary size sets embedding/softmax cost; rare words become several tokens.</p>',240,42),
+  N('emb',230,62,'Token embedding','[B,T] → [B,T,d]','<p>Lookup in a <b>V × d</b> matrix. In many models the output head is tied to this matrix. No positional vector is added here in RoPE models.</p>',240,42),
+  N('ln1',230,136,'RMSNorm','pre-norm','<p>Normalises activations before the sub-layer (pre-LN), which stabilises deep training. RMSNorm skips mean-centering: <code>x / rms(x) · g</code>.</p>',240,42),
+  N('attn',230,192,'Causal self-attention','GQA + RoPE + FlashAttention','<p>Project to Q, K, V; <b>RoPE</b> rotates Q and K; causal mask blocks future tokens; <b>GQA</b> shares KV heads; softmax(QKᵀ/√d)V then output projection <b>W_O</b>. Cost O(T²d).</p><p>At inference only the new token\'s Q is computed and K,V come from the cache.</p>',240,42),
+  N('add1',230,248,'Residual add','x + attn(x)','<p>Skip connection: gives gradients a direct path and lets each layer refine the stream.</p>',240,42),
+  N('ln2',230,304,'RMSNorm','pre-norm','<p>Second pre-norm before the feed-forward block.</p>',240,42),
+  N('ffn',230,360,'FFN: SwiGLU or MoE','per-token MLP','<p><code>down(silu(gate(x)) ⊙ up(x))</code>. Expands ~2.7-4× then projects back. In MoE models a router picks top-k expert FFNs per token.</p><p>FFN holds most parameters and a lot of the stored knowledge.</p>',240,42),
+  N('add2',230,416,'Residual add','x + ffn(x)','<p>Second skip connection; the output feeds the next layer.</p>',240,42),
+  N('fn',230,500,'Final RMSNorm','','<p>Normalise the last hidden state before the output head.</p>',240,42),
+  N('head',230,556,'LM head → logits','[B,T,V]','<p>Linear to vocabulary size V, then softmax. Training: cross-entropy against the next token at every position (teacher forcing). Inference: use the last position only.</p>',240,42),
+  N('samp',230,612,'Sampling','temperature / top-p / argmax','<p>Choose the next token, append it, and repeat. Stop on EOS or a length limit.</p>',240,42),
+  N('kv',560,192,'KV cache','inference only','<p>Stores K,V for all past tokens per layer so each step is O(T), not O(T²). Memory = <code>2·L·kv_heads·d_head·T·B·bytes</code>.</p>',170,42),
+  N('rope',560,136,'RoPE','position via rotation','<p>Rotates q,k pairs by angle <code>m·θ_i</code>; attention then depends on relative offset m−n.</p>',170,42)],
+ edges:[['tok','emb'],['emb','ln1'],['ln1','attn'],['attn','add1'],['add1','ln2'],['ln2','ffn'],['ffn','add2'],['add2','fn'],['fn','head'],['head','samp'],['emb','add1','skip',{route:'L',dash:1}],['add1','add2','skip',{route:'L',dash:1}],['kv','attn','read/append',{dash:1}],['rope','attn','rotate Q,K',{dash:1}]],
+ order:['tok','emb','ln1','attn','add1','ln2','ffn','add2','fn','head','samp']};
+DG.lifecycle={id:'lc',w:940,h:260,title:'LLM lifecycle',
+ nodes:[
+  N('data',10,30,'Data','crawl · filter · dedup','<p>Quality dominates quantity: language ID, quality classifiers, deduplication (exact and near-dup), PII removal, benchmark decontamination, domain mixing.</p><p><b>Probe:</b> data contamination, licensing, synthetic data.</p>'),
+  N('pre',190,30,'Pretrain','next-token loss','<p>Trillions of tokens, AdamW, warm-up + cosine decay, BF16/FP8, data + tensor + pipeline (+ expert) parallelism, checkpointing. Costs millions of GPU-hours at frontier scale.</p><p><b>Probe:</b> loss spikes, instability, FLOPs ≈ 6·N·D.</p>'),
+  N('mid',370,30,'Mid-training','long context · quality data','<p>Anneal on high-quality data and extend the context window (RoPE rescaling + long documents).</p>'),
+  N('sft',550,30,'SFT','instruction tuning','<p>Supervised fine-tuning on prompt/response pairs to learn chat format, tool-call syntax and style. Small but high-quality data.</p>'),
+  N('rl',730,30,'Preference / RL','RLHF · DPO · RLVR','<p>Align with human preferences (RLHF/DPO) and train reasoning/tool use with verifiable rewards (GRPO-style). <b>Probe:</b> reward hacking, KL regularisation.</p>'),
+  N('eval',730,150,'Evaluate','benchmarks · red-team','<p>Capability benchmarks, safety evals, regression suites, human preference tests. Guard against contamination and overfitting to benchmarks.</p>'),
+  N('opt',550,150,'Optimise','quantise · distil','<p>INT8/FP8/INT4 quantisation (AWQ/GPTQ), distillation, pruning, speculative-decoding draft models.</p>'),
+  N('serve',370,150,'Serve','vLLM · batching · cache','<p>Continuous batching, PagedAttention, prefix caching, tensor parallel, autoscaling. Track TTFT, ITL, tokens/s, cost per M tokens.</p>'),
+  N('mon',190,150,'Monitor','quality · cost · safety','<p>Traces, drift detection, user feedback, abuse monitoring, model-version pinning and rollback.</p>'),
+  N('fb',10,150,'Feedback → data','','<p>Logged failures and feedback become new eval cases, SFT data and preference pairs (with consent and privacy controls).</p>')],
+ edges:[['data','pre'],['pre','mid'],['mid','sft'],['sft','rl'],['rl','eval'],['eval','opt'],['opt','serve'],['serve','mon'],['mon','fb'],['fb','data','loop',{dash:1}]],
+ order:['data','pre','mid','sft','rl','eval','opt','serve','mon','fb']};
+DG.rag={id:'rg',w:960,h:370,title:'RAG pipeline',
+ groups:[{x:0,y:8,w:950,h:90,label:'INDEXING (offline)'},{x:0,y:178,w:950,h:90,label:'QUERY (online)'}],
+ nodes:[
+  N('docs',10,30,'Sources','PDF · wiki · DB','<p>Documents, tickets, code, tables. Capture source URL, owner, timestamp, ACL for later filtering and citation.</p>',130),
+  N('parse',170,30,'Parse + clean','layout · tables · OCR','<p>Layout-aware parsing keeps headings, tables and reading order. Bad parsing is the most common silent cause of bad answers.</p>',130),
+  N('chunk',330,30,'Chunk','structure-aware','<p>Split on headings/paragraphs, 200-500 tokens with overlap; consider parent-child chunks and contextual headers. Tune on an eval set.</p>',130),
+  N('embed',490,30,'Embed','dense + sparse','<p>Bi-encoder embedding model (contrastively trained) plus BM25 term statistics. Normalise vectors; match the model\'s similarity metric.</p>',130),
+  N('index',650,30,'Index','HNSW + inverted','<p>Vector index (HNSW/IVF-PQ) with metadata, plus keyword index. Plan for upserts, deletes and re-embedding when the model changes.</p>',130),
+  N('q',10,200,'User query','','<p>Natural-language question plus user identity (for ACLs) and conversation history.</p>',130),
+  N('rw',170,200,'Rewrite','expand · decompose','<p>Resolve references from history, expand abbreviations, multi-query, HyDE, decomposition of multi-hop questions, or route to a different source.</p>',130),
+  N('ret',330,200,'Hybrid retrieve','BM25 + vectors + filter','<p>Run sparse and dense search with metadata/ACL filters, fuse with RRF. Retrieve generously (top 30-100) for recall.</p>',130),
+  N('rr',490,200,'Rerank','cross-encoder','<p>A cross-encoder scores query-passage pairs jointly; keep top 3-8. Big precision gain for modest latency.</p>',130),
+  N('ctx',650,200,'Assemble context','budget · order · dedup','<p>Merge overlapping chunks, order by relevance, add source IDs, enforce token budget, separate instructions from untrusted data.</p>',130),
+  N('llm',810,200,'LLM generate','cite · abstain','<p>Instruct the model to answer only from context, cite sources and say "not found" when evidence is missing. Lower temperature.</p>',130),
+  N('ans',810,300,'Answer + citations','','<p>Validate citations, run guardrails (PII, policy), return with links to sources.</p>',130),
+  N('ev',650,300,'Evaluate','recall@k · faithfulness','<p>Retrieval: recall@k, MRR, nDCG. Generation: groundedness, answer relevance, citation accuracy. Run on every change.</p>',130)],
+ edges:[['docs','parse'],['parse','chunk'],['chunk','embed'],['embed','index'],['q','rw'],['rw','ret'],['ret','rr'],['rr','ctx'],['ctx','llm'],['llm','ans'],['index','ret','search',{dash:1}],['ans','ev','',{dash:1}]],
+ order:['q','rw','ret','rr','ctx','llm','ans','ev','docs','parse','chunk','embed','index']};
+DG.agent={id:'ag',w:880,h:390,title:'Agent loop',
+ nodes:[
+  N('goal',10,150,'Goal / task','user or trigger','<p>The objective, constraints and success criteria. Clear success criteria let the agent (and harness) know when to stop.</p>'),
+  N('ctx',180,150,'Assemble context','prompt · history · memory','<p>Build the window: instructions, tool definitions, relevant memory/notes, compacted history. See Part 7.</p>'),
+  N('llm',350,150,'Model: reason','plan next action','<p>The LLM decides: answer, or call a tool with arguments. Reasoning may be explicit (ReAct) or hidden (reasoning models).</p>'),
+  N('dec',520,150,'Decision','tool call or final?','<p>If the output contains a tool call, route it through validation. Otherwise treat it as the final answer.</p>'),
+  N('perm',520,30,'Validate + authorise','schema · policy · sandbox','<p>Check arguments against the schema, apply allow/deny rules, run hooks. Risky actions need approval.</p>'),
+  N('human',350,30,'Human approval','for risky actions','<p>Show the exact action and its effect; approve, edit or reject. Use risk tiers to avoid approval fatigue.</p>'),
+  N('tool',690,30,'Execute tool','API · shell · search','<p>Run in a sandbox with scoped credentials, timeouts and output truncation. Return errors as readable messages.</p>'),
+  N('obs',690,270,'Observation','result → context','<p>Append the (possibly truncated) result to the conversation. Large outputs should be summarised or stored by reference.</p>'),
+  N('final',690,150,'Final answer','verified + cited','<p>Return the result after verification checks (tests, schema, citations).</p>'),
+  N('bud',350,270,'Budgets + limits','steps · tokens · $','<p>Max turns, token and dollar budgets, loop detection, timeouts. Escalate to a human when exceeded.</p>')],
+ edges:[['goal','ctx'],['ctx','llm'],['llm','dec'],['dec','perm','tool call'],['perm','tool','ok'],['perm','human','risky',{dash:1}],['tool','obs'],['obs','ctx','observe & repeat',{route:'D'}],['dec','final','done'],['bud','llm','',{dash:1}]],
+ order:['goal','ctx','llm','dec','perm','tool','obs','ctx','llm','dec','final']};
+DG.multi={id:'mu',w:880,h:400,title:'Orchestrator-workers',
+ nodes:[
+  N('user',10,170,'User task','','<p>Open-ended request, e.g. "Research the top 5 vendors and compare them".</p>',140),
+  N('lead',200,170,'Lead agent','plan · delegate · synthesise','<p>Decomposes the task, spawns workers with precise instructions and scopes, tracks progress in a plan artifact, merges results.</p>',170),
+  N('w1',440,20,'Worker: web search','clean context','<p>Explores sources in its own window and returns a short, cited summary (≈1-2k tokens).</p>',170),
+  N('w2',440,120,'Worker: codebase','clean context','<p>Reads files with grep/glob, returns findings and file paths, not raw dumps.</p>',170),
+  N('w3',440,220,'Worker: analysis','code execution','<p>Runs computations in a sandbox; returns tables and conclusions.</p>',170),
+  N('w4',440,320,'Worker: reviewer','verifier','<p>Independent reviewer with fresh context checks claims against sources.</p>',170),
+  N('mem',680,170,'Shared artifacts','notes · files · git','<p>Workers write outputs to shared storage and pass references; the lead reads only what it needs.</p>',170),
+  N('ans',200,320,'Synthesised answer','with citations','<p>Final report, merged and de-duplicated, with source attributions.</p>',170)],
+ edges:[['user','lead'],['lead','w1'],['lead','w2'],['lead','w3'],['lead','w4'],['w1','mem'],['w2','mem'],['w3','mem'],['w4','mem'],['mem','lead','summaries',{route:'D',dash:1}],['lead','ans']],
+ order:['user','lead','w1','w2','w3','w4','mem','lead','ans']};
+DG.mcp={id:'mc',w:900,h:420,title:'MCP and A2A',
+ groups:[{x:0,y:20,w:210,h:250,label:'HOST APPLICATION'}],
+ nodes:[
+  N('host',20,110,'Host (agent app)','LLM + harness','<p>The application that owns the model and user: IDE, chat app, agent. It creates one MCP <b>client</b> per server and decides which tools the model may see and call.</p>',170),
+  N('c1',250,50,'MCP client A','1:1 with a server','<p>Maintains a connection to one server: initialise, negotiate capabilities, list tools/resources/prompts, forward calls.</p>',160),
+  N('c2',250,200,'MCP client B','','<p>Another connection; transports include stdio (local process) and streamable HTTP (remote, with OAuth-based authorisation).</p>',160),
+  N('s1',480,20,'Server: tools','e.g. GitHub, tickets','<p><b>Tools</b>: model-invoked actions with JSON-schema inputs. Annotate read-only vs destructive.</p>',170),
+  N('s2',480,110,'Server: resources','files · DB rows','<p><b>Resources</b>: application-controlled data identified by URI; the host chooses what to attach.</p>',170),
+  N('s3',480,200,'Server: prompts','templates','<p><b>Prompts</b>: user-controlled reusable templates, often exposed as slash commands.</p>',170),
+  N('ext',720,110,'External systems','APIs · DBs · files','<p>The real backends. The server is the trust boundary: it should enforce scopes and never pass through tokens it did not issue.</p>',160),
+  N('a2a',480,330,'Remote agent B','A2A peer','<p><b>A2A</b>: agents discover each other through <b>agent cards</b>, delegate <b>tasks</b>, stream status and exchange artifacts. Peers stay opaque: no shared memory or tools.</p>',170)],
+ edges:[['host','c1'],['host','c2'],['c1','s1','tools/call'],['c1','s2','resources/read'],['c2','s3','prompts/get'],['s1','ext'],['s2','ext'],['host','a2a','A2A task',{route:'D',dash:1}]],
+ order:['host','c1','s1','s2','c2','s3','ext','a2a']};
+DG.harness={id:'hn',w:900,h:470,title:'Agent harness',
+ groups:[{x:110,y:36,w:640,h:350,label:'HARNESS: everything except the model weights'}],
+ nodes:[
+  N('sub',130,60,'Sub-agent manager','spawn · isolate · merge','<p>Launches focused workers in clean windows and merges their summaries.</p>',170),
+  N('loop',360,60,'Agent loop','orchestrator · stop rules','<p>Calls the model, executes tool calls, appends results, repeats until done or a limit hits. Handles retries, errors and interrupts.</p>',170),
+  N('ver',570,60,'Verification','tests · linters · reviewer','<p>Executable checks before "done": tests, type-check, browser E2E, schema validation, independent reviewer.</p>',170),
+  N('ctxm',130,180,'Context manager','compact · clear · cache','<p>Budgets tokens, clears stale tool output, compacts history, keeps a cache-friendly prefix.</p>',170),
+  N('model',360,180,'Model (LLM)','reasoning + tool calls','<p>The only non-deterministic reasoning component. Everything else in this diagram is engineered to make it dependable.</p>',170),
+  N('tools',570,180,'Tool layer','built-ins · MCP · skills','<p>Schemas, descriptions, result shaping, pagination, error messages. Fewer, clearer tools beat many overlapping ones.</p>',170),
+  N('mem',130,300,'Memory + state','git · notes · progress','<p>Durable state outside the window so a fresh session can resume: git history, progress file, feature list, memory store.</p>',170),
+  N('hooks',360,300,'Hooks + guardrails','pre/post tool checks','<p>Deterministic code at lifecycle points: block dangerous commands, scan secrets, auto-format, require tests to pass.</p>',170),
+  N('perm',570,300,'Permissions + sandbox','least privilege','<p>Allow/deny/ask rules, permission modes, filesystem/network isolation, scoped credentials.</p>',170),
+  N('obs',360,410,'Observability + evals','traces · cost · replay','<p>Log every prompt, tool call and result; compute cost per successful task; convert failures into regression tests.</p>',170)],
+ edges:[['sub','loop','delegate',{dash:1}],['loop','ver'],['loop','model'],['ctxm','model'],['model','tools'],['tools','perm'],['perm','hooks','',{dash:1}],['mem','ctxm'],['hooks','obs','',{dash:1}]],
+ order:['loop','ctxm','model','tools','perm','hooks','ver','mem','sub','obs']};
+DG.sessions={id:'se',w:960,h:270,title:'Long-running agent sessions',
+ nodes:[
+  N('state',300,20,'Durable state','git log · progress.txt · features.json · init.sh','<p>The only continuity between sessions. JSON feature list with <code>passes</code> flags, a human-readable progress log, and git commits that can be reverted.</p>',360,52),
+  N('init',10,170,'Session 0','Initializer','<p>Creates <code>init.sh</code>, expands the request into a long feature list (all failing), makes the first commit.</p>',150),
+  N('s1',200,170,'Session 1','one feature','<p>Reads progress + git log → runs smoke test → implements <b>one</b> failing feature → verifies end-to-end → commits → updates log.</p>',150),
+  N('s2',390,170,'Session 2','one feature','<p>Same routine with a fresh context. It does not need to remember session 1: the files tell it.</p>',150),
+  N('s3',580,170,'Session N','one feature','<p>Continues until the feature list is complete. May stop early if blocked and record why.</p>',150),
+  N('done',770,170,'Done','all features pass','<p>All items flipped to passing by real verification. Repo is in a clean, mergeable state.</p>',150)],
+ edges:[['init','s1'],['s1','s2'],['s2','s3'],['s3','done'],['init','state','create',{dash:1}],['s1','state','read/write',{dash:1}],['s2','state','',{dash:1}],['s3','state','',{dash:1}]],
+ order:['init','state','s1','s2','s3','done']};
+DG.context={id:'cx',w:900,h:390,title:'Context engineering levers',
+ nodes:[
+  N('ctx',365,160,'Context window','finite attention budget','<p>Everything the model sees this turn. More tokens means higher cost, latency and <b>context rot</b>. Goal: smallest high-signal set.</p>',170,70),
+  N('w',365,20,'WRITE','persist outside window','<p>Save notes, plans, to-dos, decisions and state in files or a memory store; reload when needed. Survives compaction and new sessions.</p>',170),
+  N('ext',80,20,'External memory','NOTES.md · DB · git','<p>Durable stores outside the window. Keep structured and terse; verify against reality.</p>',170),
+  N('s',80,170,'SELECT','retrieve only what matters','<p>RAG, just-in-time tool retrieval (grep, glob, SQL), skill loading by relevance, tool-set pruning. Progressive disclosure.</p>',170),
+  N('cor',80,310,'Corpus + tools','files · docs · APIs','<p>Large sources stay outside; the agent keeps references (paths, queries) and fetches slices.</p>',170),
+  N('c',650,170,'COMPRESS','summarise · trim · clear','<p>Compaction (summarise and restart), clearing old tool results, trimming retrieved passages. Tune recall first, then precision.</p>',170),
+  N('sum',650,20,'Compacted summary','decisions · open issues','<p>Seed of the next window: architectural decisions, unresolved bugs, key file references, next steps.</p>',170),
+  N('i',365,310,'ISOLATE','sub-agents · sandboxes','<p>Give each sub-task its own window; only distilled results return. Also isolate untrusted data from instructions.</p>',170),
+  N('sub',650,310,'Sub-agent windows','explore in parallel','<p>Each uses tens of thousands of tokens internally and returns ≈1-2k tokens. Costs more total tokens.</p>',170)],
+ edges:[['ctx','w','persist'],['w','ext'],['cor','s'],['s','ctx','load'],['ctx','c','summarise'],['c','sum'],['ctx','i','delegate'],['i','sub']],
+ order:['ctx','w','ext','s','cor','c','sum','i','sub']};
+$$('[data-dg]').forEach(h=>buildDiagram(h,DG[h.dataset.dg]));
+
+/* ---------- control helper ---------- */
+function ctl(host,defs,cb){
+  const st={}; const box=el('<div class="ctl"></div>');
+  defs.forEach(d=>{
+    st[d.k]=d.v;
+    let lab;
+    if(d.opts){ lab=el(`<label class="sl"><span>${d.label}</span><select>${d.opts.map(o=>`<option value="${o[0]}">${o[1]}</option>`).join('')}</select></label>`);
+      const s=$('select',lab); s.value=d.v; s.onchange=()=>{st[d.k]=isNaN(+s.value)?s.value:+s.value;cb()}; }
+    else if(d.check){ lab=el(`<label class="sl"><span>${d.label}</span><input type="checkbox" ${d.v?'checked':''}></label>`);
+      $('input',lab).onchange=e=>{st[d.k]=e.target.checked;cb()}; }
+    else { lab=el(`<label class="sl"><span>${d.label}: <b>${d.v}</b></span><input type="range" min="${d.min}" max="${d.max}" step="${d.step||1}" value="${d.v}"></label>`);
+      const r=$('input',lab),b=$('b',lab); r.oninput=()=>{st[d.k]=+r.value;b.textContent=(d.fmt?d.fmt(+r.value):r.value);cb()}; }
+    box.append(lab);
+  });
+  host.append(box); return st;
+}
+const softmax=(z,T)=>{const m=Math.max(...z);const e=z.map(v=>Math.exp((v-m)/T));const s=e.reduce((a,b)=>a+b,0);return e.map(v=>v/s)};
+
+/* ---------- attention lab ---------- */
+(function(){
+  const host=$('#attnlab'); if(!host)return;
+  const T=['The','malware','downloaded','a','file','and','executed','it'], n=T.length;
+  const L=Array.from({length:n},(_,i)=>Array.from({length:n},(_,j)=>(i===j?1.2:-0.5)+(j===i-1?0.9:0)));
+  const add=(i,j,v)=>L[i][j]+=v;
+  add(7,4,3.6);add(7,1,1.6);add(6,1,2.6);add(6,4,1.6);add(2,1,2.6);add(2,4,1.9);add(4,3,2.6);add(1,0,2.2);add(5,2,1.2);add(7,6,0.6);
+  const st=ctl(host,[{k:'T',label:'Temperature',v:1,min:.3,max:3,step:.1},{k:'causal',label:'Causal mask (GPT-style)',v:false,check:1},{k:'row',label:'Inspect query token',v:7,opts:T.map((t,i)=>[i,`${i}: ${t}`])}],draw);
+  const out=el('<div></div>'); host.append(out);
+  function draw(){
+    const W=L.map((r,i)=>softmax(r.map((v,j)=>st.causal&&j>i?-1e9:v),st.T));
+    let h='<table class="hm"><tr><th>query ↓ / key →</th>'+T.map(t=>`<th>${t}</th>`).join('')+'</tr>';
+    W.forEach((r,i)=>{h+=`<tr class="${i==st.row?'sel':''}"><th style="text-align:right;${i==st.row?'color:var(--bp);font-weight:700':''}">${T[i]}</th>`+r.map(w=>`<td style="background:rgba(53,83,255,${(w*0.95).toFixed(2)});color:${w>.45?'#fff':'var(--ink)'}">${w<0.005?'·':w.toFixed(2)}</td>`).join('')+'</tr>'});
+    h+='</table>';
+    const r=W[st.row].map((w,j)=>[w,T[j]]).sort((a,b)=>b[0]-a[0]).slice(0,3);
+    h+=`<div class="ro">Token <b>${T[st.row]}</b> attends most to: ${r.map(x=>`<b>${x[1]}</b> (${(x[0]*100).toFixed(0)}%)`).join(', ')}. Each row sums to 1. ${st.causal?'Causal mask is ON: the upper triangle is zero.':'Mask OFF: every token sees all tokens (BERT-style).'}</div>`;
+    out.innerHTML=h;
+  }
+  draw();
+})();
+
+/* ---------- KV cache calculator ---------- */
+(function(){
+  const host=$('#kvcalc'); if(!host)return;
+  const st=ctl(host,[
+   {k:'L',label:'Layers',v:32,min:8,max:96,step:2},
+   {k:'H',label:'Query heads',v:32,min:8,max:128,step:8},
+   {k:'D',label:'Head dim',v:128,opts:[[64,'64'],[128,'128'],[256,'256']]},
+   {k:'T',label:'Context tokens',v:8192,opts:[[2048,'2k'],[8192,'8k'],[32768,'32k'],[131072,'128k'],[1048576,'1M']]},
+   {k:'B',label:'Concurrent sequences',v:8,min:1,max:128},
+   {k:'by',label:'Cache precision',v:2,opts:[[2,'FP16/BF16 (2 B)'],[1,'FP8/INT8 (1 B)'],[0.5,'INT4 (0.5 B)']]},
+   {k:'G',label:'GQA KV heads',v:8,opts:[[2,'2'],[4,'4'],[8,'8'],[16,'16']]}],draw);
+  const out=el('<div></div>'); host.append(out);
+  function draw(){
+    const kv=h=>2*st.L*h*st.D*st.T*st.B*st.by;
+    const rows=[['MHA',st.H,'#dc2626'],['GQA',Math.min(st.G,st.H),'#3553ff'],['MQA',1,'#16a34a']];
+    const vals=rows.map(r=>kv(r[1])), mx=Math.max(...vals), gb=v=>v/1073741824;
+    out.innerHTML=rows.map((r,i)=>`<div class="ro" style="margin-bottom:6px"><b>${r[0]}</b> · ${r[1]} KV head(s) · <b>${gb(vals[i]).toFixed(2)} GB</b> ${i?` · <span style="color:var(--ok)">${(vals[0]/vals[i]).toFixed(1)}× smaller than MHA</span>`:''}<div class="bar"><span style="width:${Math.max(vals[i]/mx*100,1.5)}%;background:${r[2]}"></span></div></div>`).join('')
+     +`<div class="ro">Per token (MHA): ${(kv(st.H)/st.T/st.B/1024).toFixed(0)} KiB. A single 80 GB GPU also needs room for weights; if the cache alone approaches that size, you must cut batch size, context, precision or KV heads.</div>`;
+  }
+  draw();
+})();
+
+/* ---------- sampling lab ---------- */
+(function(){
+  const host=$('#samplab'); if(!host)return;
+  const toks=[['Paris',9],['Lyon',6.5],['the',6],['a',5.5],['France',5],['Marseille',5],['Berlin',4.5],['located',4],['Rome',3.8],['beautiful',3.5]];
+  const st=ctl(host,[{k:'T',label:'Temperature',v:1,min:.1,max:2.5,step:.05},{k:'k',label:'Top-k',v:10,min:1,max:10},{k:'p',label:'Top-p',v:1,min:.1,max:1,step:.01}],draw);
+  const out=el('<div></div>'); host.append(out);
+  function draw(){
+    const pr=softmax(toks.map(t=>t[1]),st.T); const idx=pr.map((p,i)=>i).sort((a,b)=>pr[b]-pr[a]);
+    let keep=new Set(), cum=0;
+    idx.forEach((i,r)=>{ if(r<st.k && (cum<st.p||r===0)){keep.add(i);cum+=pr[i]} });
+    const z=[...keep].reduce((a,i)=>a+pr[i],0);
+    const ent=-pr.reduce((a,p)=>a+(p>0?p*Math.log2(p):0),0);
+    out.innerHTML=idx.map(i=>{const k=keep.has(i);const q=k?pr[i]/z:0;
+      return `<div style="display:flex;align-items:center;gap:8px;font:11px var(--font-mono);margin:3px 0"><span style="width:84px">${toks[i][0]}</span><div class="bar" style="flex:1;height:16px;margin:0"><span style="width:${(k?q:pr[i])*100}%;background:${k?'#3553ff':'#9ca3af'}"></span></div><span style="width:150px;color:${k?'var(--ink)':'var(--mute)'}">${(pr[i]*100).toFixed(1)}% ${k?`→ <b>${(q*100).toFixed(1)}%</b>`:'(dropped)'}</span></div>`}).join('')
+     +`<div class="ro" style="margin-top:8px">Kept <b>${keep.size}</b> of ${toks.length} tokens · entropy of full distribution <b>${ent.toFixed(2)} bits</b>. Blue = renormalised sampling probability, grey = filtered out. T→0 is greedy: always "${toks[0][0]}".</div>`;
+  }
+  draw();
+})();
+
+/* ---------- chunking lab ---------- */
+(function(){
+  const host=$('#chunklab'); if(!host)return;
+  const text=`Retrieval-augmented generation connects a language model to an external knowledge base. Documents are parsed, split into chunks, embedded into vectors and stored in an index. At query time the system embeds the question, searches the index, reranks the best candidates and places them in the prompt. The model then answers using only the supplied evidence and cites its sources. Chunk size is a trade-off: small chunks are precise but lose surrounding context, while large chunks keep context but blur several topics into one vector. Overlap repeats the end of one chunk at the start of the next so that a sentence cut at a boundary can still be found. Good systems tune chunk size on their own evaluation questions rather than copying a default.`;
+  const words=text.split(/\s+/);
+  const st=ctl(host,[{k:'size',label:'Chunk size (words)',v:30,min:10,max:80},{k:'ov',label:'Overlap (words)',v:6,min:0,max:30}],draw);
+  const out=el('<div></div>'); host.append(out);
+  function draw(){
+    const size=st.size, ov=Math.min(st.ov,size-1), step=size-ov; let h='',c=0;
+    for(let s=0;s<words.length;s+=step){ const w=words.slice(s,s+size); c++;
+      const o=s>0?Math.min(ov,w.length):0;
+      h+=`<div class="chunk"><b>#${c}</b> (${w.length}w) ${o?`<span class="ov">${w.slice(0,o).join(' ')}</span> `:''}${w.slice(o).join(' ')}</div>`;
+      if(s+size>=words.length)break; }
+    out.innerHTML=`<div class="ro" style="margin-bottom:8px">${words.length} words → <b>${c}</b> chunks · overlap overhead ≈ <b>${(100*ov/size).toFixed(0)}%</b> extra tokens stored.</div>`+h;
+  }
+  draw();
+})();
+
+/* ---------- RRF lab ---------- */
+(function(){
+  const host=$('#rrflab'); if(!host)return;
+  const docs={D1:'Troubleshooting guide for login failures',D2:'How do I fix users who cannot sign in? (paraphrase)',D3:'Exact reference: error code ERR_4012',D4:'Overview of authentication architecture',D5:'Release notes mentioning ERR_4012 fix',D6:'Password reset FAQ'};
+  const bm=['D3','D5','D1','D6','D2','D4'], de=['D2','D4','D1','D6','D3','D5'];
+  const st=ctl(host,[{k:'k',label:'RRF constant k',v:60,min:1,max:100},{k:'w',label:'Dense weight',v:.5,min:0,max:1,step:.05}],draw);
+  const out=el('<div></div>'); host.append(out);
+  function draw(){
+    const s={}; Object.keys(docs).forEach(d=>{const rb=bm.indexOf(d)+1,rd=de.indexOf(d)+1;s[d]={rb,rd,v:(1-st.w)/(st.k+rb)+st.w/(st.k+rd)}});
+    const order=Object.keys(s).sort((a,b)=>s[b].v-s[a].v), mx=s[order[0]].v;
+    out.innerHTML='<div class="tw" style="box-shadow:none"><table><thead><tr><th>Fused rank</th><th>Doc</th><th>BM25 rank</th><th>Dense rank</th><th>RRF score</th></tr></thead><tbody>'+order.map((d,i)=>`<tr><td><b>${i+1}</b></td><td><b>${d}</b> ${docs[d]}</td><td>${s[d].rb}</td><td>${s[d].rd}</td><td><div class="bar" style="height:14px;margin:0;width:140px"><span style="width:${s[d].v/mx*100}%;background:#3553ff"></span></div> ${s[d].v.toFixed(4)}</td></tr>`).join('')+'</tbody></table></div><div class="ro">Query: "login error ERR_4012". BM25 favours the exact-code document; dense favours the paraphrase. RRF rewards documents that both retrievers rank reasonably, without needing comparable score scales. Lower k gives top ranks more influence.</div>';
+  }
+  draw();
+})();
+
+/* ---------- context budget lab ---------- */
+(function(){
+  const host=$('#ctxlab'); if(!host)return;
+  const st=ctl(host,[
+   {k:'win',label:'Model window',v:200000,opts:[[8000,'8k'],[32000,'32k'],[128000,'128k'],[200000,'200k'],[1000000,'1M']]},
+   {k:'sys',label:'System prompt (tokens)',v:2000,min:0,max:30000,step:500},
+   {k:'tools',label:'Tool definitions',v:8000,min:0,max:60000,step:500},
+   {k:'docs',label:'Retrieved docs',v:12000,min:0,max:150000,step:1000},
+   {k:'hist',label:'Conversation history',v:30000,min:0,max:300000,step:1000},
+   {k:'tr',label:'Tool results',v:40000,min:0,max:300000,step:1000},
+   {k:'out',label:'Reserved for output',v:8000,min:1000,max:64000,step:1000}],draw);
+  const out=el('<div></div>'); host.append(out);
+  const parts=[['sys','System','#3553ff'],['tools','Tools','#0891b2'],['docs','Docs','#16a34a'],['hist','History','#d97706'],['tr','Tool results','#dc2626'],['out','Output','#6b7280']];
+  function draw(){
+    const used=parts.reduce((a,p)=>a+st[p[0]],0), pct=used/st.win*100, stable=(st.sys+st.tools)/Math.max(used,1)*100;
+    const bar=`<div class="bar">${parts.map(p=>`<span title="${p[1]}" style="width:${Math.min(st[p[0]]/st.win*100,100)}%;background:${p[2]}">${st[p[0]]/st.win>.08?p[1]:''}</span>`).join('')}</div>`;
+    let adv,col; if(pct>100){adv='Over the window: the request will fail. Clear tool results, compact history, or trim docs.';col='var(--bad)'}
+    else if(pct>75){adv='Above ~75%: compact or clear old tool results now; expect degraded recall.';col='var(--bad)'}
+    else if(pct>50){adv='Above 50%: context-rot risk rising. Prefer just-in-time retrieval and sub-agents for further exploration.';col='var(--warn)'}
+    else {adv='Healthy headroom. Keep adding only high-signal tokens.';col='var(--ok)'}
+    out.innerHTML=bar+`<div class="ro"><b>${used.toLocaleString()}</b> / ${st.win.toLocaleString()} tokens (<b>${pct.toFixed(1)}%</b>) · remaining <b>${Math.max(st.win-used,0).toLocaleString()}</b><br>Cache-friendly stable prefix (system + tools): <b>${stable.toFixed(0)}%</b> of the prompt, so keep it first and unchanged.<br><span style="color:${col};font-weight:700">${adv}</span></div>`;
+  }
+  draw();
+})();
+
+/* ---------- quiz ---------- */
+(function(){
+  const host=$('#quiz'); if(!host)return;
+  const Q=[
+   ['Why is scaled dot-product attention divided by √d_k?',['To reduce parameter count','To keep logit variance stable so softmax gradients do not vanish','To increase sequence length','To remove positional embeddings'],1],
+   ['What makes BERT bidirectional?',['Two independent LSTMs','Next-token prediction only','Encoder self-attention sees left and right context','A decoder-only mask'],2],
+   ['Primary advantage of GQA?',['Eliminates tokenisation','Smaller KV cache by sharing KV heads','Replaces the FFN','Makes attention linear in length'],1],
+   ['FlashAttention mainly improves…',['The training objective','Memory traffic and speed of exact attention','Model accuracy via approximation','GPU requirement'],1],
+   ['Which family is naturally autoregressive?',['BERT encoder-only','GPT decoder-only','ResNet','Bidirectional encoder'],1],
+   ['In RAG, why add a cross-encoder reranker?',['Cheaper than embeddings','Joint query-document scoring improves precision on top candidates','Replaces chunking','Removes the need for an LLM'],1],
+   ['Best defence against indirect prompt injection in an agent?',['A stronger system prompt alone','Treat external content as data and limit tool privileges, with approvals for risky actions','Higher temperature','Longer context'],1],
+   ['Why prefer a hook over a prompt rule for "never run rm -rf"?',['Hooks are cheaper','A hook is deterministic harness code that can block the call; prompts can be ignored','Prompts cannot contain commands','Hooks improve reasoning'],1],
+   ['What is context rot?',['Corrupted files','Recall and accuracy degrade gradually as context grows','Tokenizer errors','Cache expiry'],1],
+   ['What does a sub-agent typically return to the lead agent?',['Its full context window','A condensed summary of findings','Only its tool list','Nothing'],1]];
+  let ans=0,score=0; const qs=el('<div></div>'); host.append(qs);
+  Q.forEach((q,qi)=>{
+    const w=el(`<div><div class="qq">${qi+1}. ${q[0]}</div></div>`);
+    q[1].forEach((o,oi)=>{const b=el(`<button class="opt">${o}</button>`);b.onclick=()=>{
+      if(w.dataset.done)return; w.dataset.done=1; ans++; const ok=oi===q[2]; if(ok)score++;
+      b.classList.add(ok?'right':'wrong'); if(!ok)$$('.opt',w)[q[2]].classList.add('right');
+      $('#qscore').textContent=`${ans} / ${Q.length} answered · score ${score}`; if(ans===Q.length)$('#qscore').textContent+=` · ${score>=8?'strong':score>=6?'solid, review misses':'review Parts 1-7'}`;};
+      w.append(b)});
+    qs.append(w);
+  });
+})();
+
+/* ---------- TOC + scroll spy ---------- */
+(function(){
+  const toc=$('#toc'); const hs=$$('main h1[id]:not(.top), main h2[id]'); const links={};
+  hs.forEach(h=>{const a=el(`<a class="${h.tagName==='H1'?'p':'s'}" href="#${h.id}">${h.textContent}</a>`);toc.append(a);links[h.id]=a});
+  const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ $$('a',toc).forEach(x=>x.classList.remove('on')); const a=links[e.target.id]; a.classList.add('on'); a.scrollIntoView({block:'nearest'}) } }),{rootMargin:'-80px 0px -75% 0px'});
+  hs.forEach(h=>io.observe(h));
+  toc.addEventListener('click',()=>{ if(mq.matches)$('#side').classList.remove('open') });
+  const tb=$('#top'); tb.onclick=()=>scrollTo({top:0}); addEventListener('scroll',()=>{tb.style.display=scrollY>600?'block':'none'},{passive:true});
+})();
+})();
+</script>
+</body></html>
