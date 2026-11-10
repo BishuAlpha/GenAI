@@ -1,0 +1,9 @@
+# Local tooling and build sources
+.claude/
+_build/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
