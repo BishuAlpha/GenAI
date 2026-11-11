@@ -97,6 +97,8 @@ tbody tr:nth-child(even) td{background:var(--tint)}
 .chunk{display:inline-block;margin:3px;padding:5px 8px;border:1px solid var(--ink);font:11px/1.4 var(--font-mono);background:var(--bg2);max-width:100%;white-space:pre-wrap}
 .chunk .ov{background:rgba(224,160,64,.5)}
 .hm{border-collapse:collapse;margin:6px auto;width:auto}.hm td{width:46px;height:34px;text-align:center;font:10px var(--font-mono);border:1px solid var(--rule);padding:0}.hm th{font:10px var(--font-mono);text-transform:none;padding:2px 4px;background:none;border:0;color:var(--soft)}
+.site-foot{margin-top:3em;padding:18px 0 4px;border-top:1px solid var(--rule);text-align:center;font-family:var(--font-mono);font-size:.78rem;letter-spacing:.12em}
+.site-foot a{color:var(--soft)}.site-foot a:hover{color:var(--bp)}
 #top{position:fixed;right:18px;bottom:18px;display:none;background:var(--bg);box-shadow:var(--shadow);z-index:60}
 @media(max-width:980px){aside{transform:translateX(-100%);width:300px}aside.open{transform:none}main,body.nosb main{margin-left:0;padding:84px 16px 80px}body{font-size:16.5px}}
 @media print{header,aside,#top{display:none}main{margin:0;max-width:none}}
@@ -356,6 +358,7 @@ def rrf(rankings, k=60):
 </tbody></table></div>
 <p><strong>Study order:</strong> (1) attention maths and BERT vs GPT; (2) KV cache, FlashAttention, GQA, LoRA; (3) RAG end to end with evaluation; (4) agent loop, tools, MCP, safety; (5) harness and context engineering trade-offs; (6) be able to draw each diagram on a whiteboard and state two failure modes per box.</p>
 <p style="color:var(--mute);font-size:.85rem">Sourcing note: web search was unavailable while building this page. Agent, harness, context and MCP material comes from Anthropic and MCP primary docs fetched directly; the Transformer/BERT section follows your supplied notes. Verify any 2026-specific paper claims (e.g. Full-Bandwidth Transformer, Tensor Product Attention) before quoting them in an interview.</p>
+<footer class="site-foot"><a href="https://www.linkedin.com/in/bishwajitprasadgond" target="_blank" rel="noopener noreferrer">&copy; BISHWAJIT PRASAD GOND</a></footer>
 </main>
 <button id="top">TOP ↑</button>
 <script>
